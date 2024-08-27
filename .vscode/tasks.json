@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0", // Version of the tasks configuration format
+    "tasks": [
+        {
+            "label": "build", // Task label, used to identify the task
+            "type": "shell", // The task type, which indicates it will be executed in the shell
+            "command": "g++", // The compiler command
+            "args": [
+                "-g", // Flag to include debugging information in the output executable
+                "main.cpp", // Source file to compile; replace with your main file
+                "-o", // Option to specify the output file
+                "main" // Name of the output executable
+            ],
+            "group": {
+                "kind": "build", // Grouping this task as a 'build' task
+                "isDefault": true // Set this as the default build task
+            },
+            "problemMatcher": ["$gcc"], // Pattern to match and display errors/warnings in the Problems panel
+            "detail": "Generated task for building the Hello World program", // Description for the task
+            "showOutput": "always" // Always show output in the terminal when this task runs
+        }
+    ]
+}
