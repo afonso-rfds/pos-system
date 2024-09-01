@@ -22,3 +22,8 @@ void POSContext::transitionToState(POSState* newState)
     currentState->exitState(*this);
     setState(newState);
 }
+
+POSState* POSContext::getCurrentState()
+{
+    return currentState.get();
+}
