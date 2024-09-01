@@ -7,7 +7,10 @@ project(pos-supermarket)
 # Set the C++ standard to use
 set(CMAKE_CXX_STANDARD 11)
 
-# Automatically find all .cpp files in the pos-supermarket directory
+# Include the directory where custom CMake modules are located
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/cmake ${CMAKE_MODULE_PATH})
+
+# Automatically find all .cpp files in the root directory
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
 
 # Exclude CMake-generated files and directories
@@ -23,5 +26,4 @@ target_include_directories(main PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
 add_subdirectory(tests)
 
 # Enable testing procedures
-# enable_testing()
-
+enable_testing()
