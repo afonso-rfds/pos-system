@@ -1,0 +1,16 @@
+Language: Cpp
+DerivePointerAlignment: false
+PointerAlignment: Left
+IndentWidth: 4
+AllowShortIfStatementsOnASingleLine: false
+DerivePointerBinding: false
+AlignConsecutiveAssignments: AcrossEmptyLines
+BraceWrapping:
+  AfterFunction: true
+  AfterClass: true
+  AfterNamespace: true
+  BeforeElse: true
+  BeforeCatch: true
+  BeforeWhile: true
+BreakBeforeBraces: Allman
+ColumnLimit: 0

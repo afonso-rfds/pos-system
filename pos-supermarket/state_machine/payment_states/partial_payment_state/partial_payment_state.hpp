@@ -2,10 +2,10 @@
 
 #include "state_machine/pos_state.hpp"
 
-class PartialPaymentState: public POSState
+class PartialPaymentState : public POSState
 {
-public:
-    PartialPaymentState() = default;
+  public:
+    PartialPaymentState()  = default;
     ~PartialPaymentState() = default;
 
     void handleInput(POSContext& context, const std::string& input) override;

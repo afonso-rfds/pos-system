@@ -1,14 +1,14 @@
 #pragma once
 
-#include <memory>
 #include "pos_state.hpp"
+#include <memory>
 
-class POSContext 
+class POSContext
 {
-private:
+  private:
     std::unique_ptr<POSState> currentState;
 
-public:
+  public:
     POSContext(POSState* initialState);
     ~POSContext() = default;
 

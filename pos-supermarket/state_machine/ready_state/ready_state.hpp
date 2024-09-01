@@ -2,10 +2,10 @@
 
 #include "state_machine/pos_state.hpp"
 
-class ReadyState: public POSState
+class ReadyState : public POSState
 {
-public:
-    ReadyState() = default;
+  public:
+    ReadyState()  = default;
     ~ReadyState() = default;
 
     void handleInput(POSContext& context, const std::string& input) override;
