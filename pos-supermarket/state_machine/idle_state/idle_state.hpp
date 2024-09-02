@@ -1,6 +1,11 @@
 #pragma once
 
+#include <string.h>
+
+#include "iostream"
+#include "state_machine/pos_context.hpp"
 #include "state_machine/pos_state.hpp"
+#include "state_machine/ready_state/ready_state.hpp"
 
 class IdleState : public POSState
 {
@@ -8,7 +13,14 @@ class IdleState : public POSState
     IdleState()  = default;
     ~IdleState() = default;
 
-    void handleInput(POSContext& context, const std::string& input) override;
     void enterState(POSContext& context) override;
     void exitState(POSContext& context) override;
+    void handleInput(POSContext& context, const std::string& userInput) override;
+
+  private:
+    void showWelcomeScreen();
+
+    bool isValidName(std::string userInput);
+
+    std::string m_userInput;
 };
