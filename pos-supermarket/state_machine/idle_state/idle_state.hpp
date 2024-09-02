@@ -15,7 +15,7 @@ class IdleState : public POSState
 
     void enterState(POSContext& context) override;
     void exitState(POSContext& context) override;
-    void handleInput(POSContext& context, const std::string& userInput) override;
+    void processState(POSContext& context) override;
 
   private:
     void showWelcomeScreen();

@@ -13,7 +13,7 @@ void IdleState::exitState(POSContext& context)
     std::cout << "Operator " << m_userInput << " logged in." << std::endl;
 }
 
-void IdleState::handleInput(POSContext& context, const std::string& userInput)
+void IdleState::processState(POSContext& context)
 {
     do
     {

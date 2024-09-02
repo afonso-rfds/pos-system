@@ -12,9 +12,9 @@ void POSContext::setState(POSState* newState)
     currentState->enterState(*this);
 }
 
-void POSContext::handleInput(const std::string& input)
+void POSContext::processCurrentState()
 {
-    currentState->handleInput(*this, input);
+    currentState->processState(*this);
 }
 
 void POSContext::transitionToState(POSState* newState)

@@ -27,9 +27,9 @@ TEST_F(POSContextTest, transitionToState)
     EXPECT_EQ(posContext->getCurrentState(), mockSecondState);
 }
 
-TEST_F(POSContextTest, handleInput)
+TEST_F(POSContextTest, processCurrentState)
 {
-    EXPECT_CALL(*mockInitialState, handleInput(::testing::Ref(*posContext), ::testing::_)).Times(1);
+    EXPECT_CALL(*mockInitialState, processState(::testing::Ref(*posContext))).Times(1);
 
-    posContext->handleInput("Test Input");
+    posContext->processCurrentState();
 }

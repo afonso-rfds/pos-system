@@ -8,7 +8,7 @@
 class MockPOSState : public POSState
 {
   public:
-    MOCK_METHOD2(handleInput, void(POSContext& context, const std::string& input));
+    MOCK_METHOD1(processState, void(POSContext& context));
     MOCK_METHOD1(enterState, void(POSContext& context));
     MOCK_METHOD1(exitState, void(POSContext& context));
 };

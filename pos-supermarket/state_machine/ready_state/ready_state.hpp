@@ -8,7 +8,7 @@ class ReadyState : public POSState
     ReadyState()  = default;
     ~ReadyState() = default;
 
-    void handleInput(POSContext& context, const std::string& input) override;
     void enterState(POSContext& context) override;
     void exitState(POSContext& context) override;
+    void processState(POSContext& context) override;
 };

@@ -9,7 +9,7 @@ int main()
 {
 
     POSContext posContext(new IdleState());
-    posContext.handleInput("something");
+    posContext.processCurrentState();
 
     return 0;
 }

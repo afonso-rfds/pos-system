@@ -9,9 +9,8 @@ class POSContext
     POSContext(POSState* initialState);
     ~POSContext() = default;
 
-    /// @brief Delegate input handling to the current state
-    /// @param[in] input User input
-    void handleInput(const std::string& input);
+    /// @brief Process the current active state
+    void processCurrentState();
 
     /// @brief Transition to a new state (exit current and enter new one)
     /// @param[in] newState New active state
