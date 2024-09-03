@@ -1,4 +1,3 @@
-// mock_pos_state.hpp
 #pragma once
 
 #include "state_machine/pos_state.hpp"

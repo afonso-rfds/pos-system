@@ -10,7 +10,7 @@ void IdleState::enterState(POSContext& context)
 
 void IdleState::exitState(POSContext& context)
 {
-    std::cout << "Operator " << m_userInput << " logged in." << std::endl;
+    std::cout << "Operator " << userInput << " logged in." << std::endl;
 }
 
 void IdleState::processState(POSContext& context)
@@ -18,16 +18,16 @@ void IdleState::processState(POSContext& context)
     do
     {
         std::cout << "Please identify yourself: ";
-        std::cin >> m_userInput;
+        std::cin >> userInput;
         std::cout << std::endl;
 
-        if (!isValidName(m_userInput))
+        if (!isValidName(userInput))
         {
             std::cout << std::endl
                       << "Invalid name. Choose another." << std::endl;
         }
 
-    } while (!isValidName(m_userInput));
+    } while (!isValidName(userInput));
 
     context.transitionToState(new ReadyState());
 }
@@ -39,22 +39,22 @@ void IdleState::showWelcomeScreen()
         std::cout << "----- Welcome to the supermarket! -----\n";
         std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
 
-        std::getline(std::cin, m_userInput);
-        std::transform(m_userInput.begin(), m_userInput.end(), m_userInput.begin(), ::toupper);
+        std::getline(std::cin, userInput);
+        std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
 
-    } while (m_userInput != "EXIT" && !m_userInput.empty());
+    } while (userInput != "EXIT" && !userInput.empty());
 
-    if (m_userInput == "EXIT")
+    if (userInput == "EXIT")
     {
         exit(EXIT_SUCCESS);
     }
 }
 
-bool IdleState::isValidName(std::string userInput)
+bool IdleState::isValidName(std::string operatorsName)
 {
     // Regex to match only alphabetic characters (both uppercase and lowercase)
     std::regex alphaRegex("^[A-Za-z]+$");
 
     // Return true if the input matches the regex, false otherwise
-    return std::regex_match(userInput, alphaRegex);
+    return std::regex_match(operatorsName, alphaRegex);
 }
