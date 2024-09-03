@@ -2,14 +2,12 @@
 
 INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputString)
 {
-    // Create a personalized input string and redirect std::cin
     std::istringstream input(inputString);
     std::cin.rdbuf(input.rdbuf());
 }
 
 void IdleStateTest::SetUp()
 {
-
     createCustomInputString("");
 
     idleState      = new IdleState();

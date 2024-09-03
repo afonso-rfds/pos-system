@@ -9,11 +9,11 @@
 class POSContextTest : public ::testing::Test
 {
   protected:
+    void SetUp() override;
+    void TearDown() override;
+
     MockPOSState* mockInitialState;
     MockPOSState* mockSecondState;
 
     POSContext* posContext;
-
-    void SetUp() override;
-    void TearDown() override;
 };

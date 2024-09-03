@@ -18,7 +18,7 @@ class IdleState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Print "welcome" screen and process first commands
+    /// @brief Print "welcome" screen and process commands
     void showWelcomeScreen();
 
     /// @brief Check weather the operator's name is valid (alphabetic chars only)
@@ -27,5 +27,6 @@ class IdleState : public POSState
     ///         false: Invalid name
     bool isValidName(std::string operatorsName);
 
+    /// @brief Commands from the user
     std::string userInput;
 };

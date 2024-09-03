@@ -12,13 +12,15 @@
 class IdleStateTest : public ::testing::Test
 {
   protected:
-    MockPOSContext* mockContext;
-    MockPOSState* mockReadyState;
-
-    IdleState* idleState;
-
+    /// @brief Create a personalized input string and redirect std::cin
+    /// @param inputString string to mock as user's input
     INLINE_FUNCTION void createCustomInputString(std::string inputString);
 
     void SetUp() override;
     void TearDown() override;
+
+    MockPOSContext* mockContext;
+    MockPOSState* mockReadyState;
+
+    IdleState* idleState;
 };
