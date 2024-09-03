@@ -9,7 +9,11 @@ int main()
 {
 
     POSContext posContext(new IdleState());
-    posContext.processCurrentState();
+
+    while (true)
+    {
+        posContext.processCurrentState();
+    }
 
     return 0;
 }
