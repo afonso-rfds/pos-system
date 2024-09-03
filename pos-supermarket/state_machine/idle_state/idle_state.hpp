@@ -5,7 +5,6 @@
 #include "iostream"
 #include "state_machine/pos_context.hpp"
 #include "state_machine/pos_state.hpp"
-#include "state_machine/ready_state/ready_state.hpp"
 
 class IdleState : public POSState
 {

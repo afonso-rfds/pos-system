@@ -1,7 +1,10 @@
-#include <algorithm>
-#include <regex>
-
 #include "idle_state.hpp"
+#include "config.hpp"
+#include "state_machine/ready_state/ready_state.hpp"
+
+#include <algorithm>
+#include <limits.h>
+#include <regex>
 
 void IdleState::enterState(POSContext& context)
 {
@@ -10,7 +13,8 @@ void IdleState::enterState(POSContext& context)
 
 void IdleState::exitState(POSContext& context)
 {
-    std::cout << "Operator " << userInput << " logged in." << std::endl;
+    std::cout << "Operator '" << userInput << "' logged in." << std::endl
+              << std::endl;
 }
 
 void IdleState::processState(POSContext& context)
@@ -18,8 +22,7 @@ void IdleState::processState(POSContext& context)
     do
     {
         std::cout << "Please identify yourself: ";
-        std::cin >> userInput;
-        std::cout << std::endl;
+        std::getline(std::cin, userInput);
 
         if (!isValidName(userInput))
         {
@@ -36,9 +39,12 @@ void IdleState::showWelcomeScreen()
 {
     do
     {
-        std::cout << "----- Welcome to the supermarket! -----\n";
+        std::cout << "---------- Welcome to the supermarket! ----------\n";
         std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
 
+#ifndef DEBUG_MODE_ENABLED
+        std::cin.ignore(INT_MAX, '\n');
+#endif
         std::getline(std::cin, userInput);
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
 

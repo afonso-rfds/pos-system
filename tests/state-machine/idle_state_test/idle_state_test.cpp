@@ -1,26 +1,10 @@
 #include "idle_state_test.hpp"
+#include "state_machine/ready_state/ready_state.hpp"
 
 INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputString)
 {
     std::istringstream input(inputString);
     std::cin.rdbuf(input.rdbuf());
-}
-
-void IdleStateTest::SetUp()
-{
-    createCustomInputString("");
-
-    idleState      = new IdleState();
-
-    mockReadyState = new MockPOSState();
-    mockContext    = new MockPOSContext(idleState);
-
-    // Restore cin's buffer
-    // std::cin.rdbuf(nullptr);
-}
-
-void IdleStateTest::TearDown()
-{
 }
 
 TEST_F(IdleStateTest, enterState)
@@ -30,10 +14,14 @@ TEST_F(IdleStateTest, enterState)
 
 TEST_F(IdleStateTest, processState)
 {
-    EXPECT_CALL(*mockReadyState, enterState(::testing::Ref(*mockContext))).Times(1);
-    EXPECT_CALL(*mockContext, transitionToState(::testing::Ref(*mockReadyState))).Times(1);
+    createCustomInputString("");
+
+    idleState  = new IdleState();
+    posContext = new POSContext(idleState);
+
+    ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
 
     createCustomInputString("User");
-
-    idleState->processState(*mockContext);
+    idleState->processState(*posContext);
+    ASSERT_TRUE(dynamic_cast<ReadyState*>(posContext->getCurrentState()) != nullptr);
 }
