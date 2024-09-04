@@ -1,6 +1,8 @@
 #include "pos_context.hpp"
 #include "state_machine/states/pos_state.hpp"
 
+#include <cmath>
+
 POSContext::POSContext(POSState* initialState) : currentState(initialState)
 {
     currentState->enterState(*this);
@@ -39,8 +41,20 @@ void POSContext::addRegisteredProduct(const Product& product)
         productEntry = std::make_pair(product, 1);
     }
 
-    // Update the total price
-    currentTotalPrice += product.price * (1 + product.taxRate);
+    updatePrice(product);
+}
+
+void POSContext::updatePrice(const Product& product)
+{
+    // Calculate Subtotal price (price without tax), tax and total price
+    currentSubtotalPrice += product.price;
+    currentTaxPrice += product.price * product.taxRate;
+
+    // Round to 2 decimals
+    currentSubtotalPrice = std::round(currentSubtotalPrice * 100.0) / 100.0;
+    currentTaxPrice      = std::round(currentTaxPrice * 100.0) / 100.0;
+
+    currentTotalPrice    = currentSubtotalPrice + currentTaxPrice;
 }
 
 //**** -------------- Setters -------------- ****
@@ -48,11 +62,6 @@ void POSContext::addRegisteredProduct(const Product& product)
 void POSContext::setCurrentOperator(std::string operatorIdentifier)
 {
     currentOperator = operatorIdentifier;
-}
-
-void POSContext::setTotalPrice(float transactionPrice)
-{
-    currentTotalPrice = transactionPrice;
 }
 
 //**** -------------- Getters -------------- ****
@@ -70,6 +79,16 @@ const std::string POSContext::getCurrentOperator() const
 const float POSContext::getTotalPrice() const
 {
     return currentTotalPrice;
+}
+
+const float POSContext::getSubtotalPrice() const
+{
+    return currentSubtotalPrice;
+}
+
+const float POSContext::getTaxPrice() const
+{
+    return currentTaxPrice;
 }
 
 const std::unordered_map<std::string, std::pair<Product, int>>& POSContext::getRegisteredProducts() const

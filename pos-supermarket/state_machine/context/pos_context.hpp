@@ -31,10 +31,6 @@ class POSContext
     /// @param currentOperator operator's identifier
     void setCurrentOperator(std::string operatorIdentifier);
 
-    /// @brief Get current transaction price
-    /// @return Current transaction price
-    void setTotalPrice(float transactionPrice);
-
     //**** -------------- Getters -------------- ****
 
     /// @brief Get current active state instance
@@ -45,18 +41,31 @@ class POSContext
     /// @return Current operator's identifier
     const std::string getCurrentOperator() const;
 
-    /// @brief Get current transaction price
+    /// @brief Get current transaction price (subtotal + tax)
     /// @return Current transaction price
     const float getTotalPrice() const;
 
+    /// @brief Get current subtotal price
+    /// @return Current subtotal price
+    const float getSubtotalPrice() const;
+
+    /// @brief Get current tax price
+    /// @return Current tax price
+    const float getTaxPrice() const;
+
     /// @brief Get the map of registered products with their quantities
     /// @return Reference to the map of registered products
-    const std::unordered_map<std::string, std::pair<Product, int>>& getRegisteredProducts() const;
+    const std::unordered_map<std::string, std::pair<Product, int>>&
+    getRegisteredProducts() const;
 
   private:
     /// @brief Set new state
     /// @param[in] newState New active state
     void setState(POSState* newState);
+
+    /// @brief Calculate current prices (subtotal, tax and total)
+    /// @param product Product to add
+    void updatePrice(const Product& product);
 
     /// @brief Current active state
     std::unique_ptr<POSState> currentState;
@@ -65,7 +74,13 @@ class POSContext
     std::string currentOperator;
 
     /// @brief Price of the current active transaction
-    float currentTotalPrice;
+    float currentTotalPrice = 0;
+
+    /// @brief Price of the current active transaction
+    float currentSubtotalPrice = 0;
+
+    /// @brief Price of the current active transaction
+    float currentTaxPrice = 0;
 
     /// @brief Products registered so far in the transaction, mapped by product name or identifier
     /// @note Key - Value pair in which Value is a std::pair composed of Product and number of ocurrences of this product
