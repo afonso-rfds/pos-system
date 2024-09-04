@@ -1,4 +1,4 @@
-#include "database/products/products_database.hpp"
+#include "products/products_database/products_database.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
