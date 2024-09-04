@@ -9,7 +9,7 @@ class Product
     ~Product() = default;
 
     std::string EAN13;
-    std::string name;
+    std::string productName;
     double price;
     double taxRate;
 };
