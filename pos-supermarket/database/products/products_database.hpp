@@ -5,7 +5,7 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
 
-const std::string PRODUCTS_DATABASE_PATH = "./products.db";
+const std::string PRODUCTS_DATABASE_PATH = "/home/afonso/workspace/pos-exercise/pos-supermarket/database/products/products.db";
 
 // Singleton class
 class ProductsDatabase
@@ -34,6 +34,3 @@ class ProductsDatabase
     /// @brief Connection to the database
     std::unique_ptr<SQLite::Database> productDatabase;
 };
-
-/// @brief Initialization must be done outside to prevent race conditions (in case threads are used)
-ProductsDatabase* ProductsDatabase::singletonInstance = nullptr;

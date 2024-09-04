@@ -1,5 +1,8 @@
 #include "products_database.hpp"
 
+/// @brief Initialization must be done outside to prevent race conditions (in case threads are used)
+ProductsDatabase* ProductsDatabase::singletonInstance = nullptr;
+
 ProductsDatabase::ProductsDatabase()
 {
     productDatabase.reset(new SQLite::Database(PRODUCTS_DATABASE_PATH, SQLite::OPEN_READONLY));
