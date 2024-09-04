@@ -8,6 +8,7 @@
 
 void IdleState::enterState(POSContext& context)
 {
+    context.setCurrentOperator(""); // Assign no operator
     showWelcomeScreen();
 }
 
@@ -37,6 +38,7 @@ void IdleState::processState(POSContext& context)
 
     } while (!isValidName(userInput));
 
+    context.setCurrentOperator(userInput);
     context.transitionToState(new ReadyState());
 }
 

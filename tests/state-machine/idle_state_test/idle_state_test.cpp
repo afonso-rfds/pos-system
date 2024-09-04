@@ -9,7 +9,14 @@ INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputStr
 
 TEST_F(IdleStateTest, enterState)
 {
-    EXPECT_TRUE(true);
+    createCustomInputString("");
+
+    idleState  = new IdleState();
+    posContext = new POSContext(idleState);
+
+    // Current state is IdleState
+    ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
+    EXPECT_EQ(posContext->getCurrentOperator(), ""); // No operator (empty string)
 }
 
 TEST_F(IdleStateTest, processState)
@@ -19,9 +26,10 @@ TEST_F(IdleStateTest, processState)
     idleState  = new IdleState();
     posContext = new POSContext(idleState);
 
-    ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
-
     createCustomInputString("User");
     idleState->processState(*posContext);
+
+    // Current state is ReadyState. Current operator's identifier is 'User'
     ASSERT_TRUE(dynamic_cast<ReadyState*>(posContext->getCurrentState()) != nullptr);
+    EXPECT_EQ(posContext->getCurrentOperator(), "User");
 }
