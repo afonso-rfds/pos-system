@@ -1,6 +1,6 @@
 #pragma once
 
-#include "state_machine/pos_context.hpp"
+#include "state_machine/context/pos_context.hpp"
 #include "state_machine/ready_state/ready_state.hpp"
 
 #include <gtest/gtest.h>

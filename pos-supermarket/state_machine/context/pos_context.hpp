@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pos_state.hpp"
+#include "state_machine/pos_state.hpp"
 #include <memory>
 
 class POSContext

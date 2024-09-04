@@ -1,5 +1,5 @@
 #include "pos_context.hpp"
-#include "pos_state.hpp"
+#include "state_machine/pos_state.hpp"
 
 POSContext::POSContext(POSState* initialState) : currentState(initialState)
 {
