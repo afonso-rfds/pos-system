@@ -1,12 +1,12 @@
 #pragma once
 
-#include "state_machine/pos_state.hpp"
+#include "state_machine/states/pos_state.hpp"
 
-class ItemsState : public POSState
+class PartialPaymentState : public POSState
 {
   public:
-    ItemsState()  = default;
-    ~ItemsState() = default;
+    PartialPaymentState()  = default;
+    ~PartialPaymentState() = default;
 
     void enterState(POSContext& context) override;
     void exitState(POSContext& context) override;

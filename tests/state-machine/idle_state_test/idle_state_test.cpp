@@ -1,5 +1,5 @@
 #include "idle_state_test.hpp"
-#include "state_machine/ready_state/ready_state.hpp"
+#include "state_machine/states/ready_state/ready_state.hpp"
 
 INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputString)
 {

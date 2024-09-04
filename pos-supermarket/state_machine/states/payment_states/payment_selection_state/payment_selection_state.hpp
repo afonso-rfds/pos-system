@@ -1,6 +1,6 @@
 #pragma once
 
-#include "state_machine/pos_state.hpp"
+#include "state_machine/states/pos_state.hpp"
 
 class PaymentSelectionState : public POSState
 {

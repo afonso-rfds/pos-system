@@ -1,7 +1,7 @@
 #pragma once
 
 #include "state_machine/context/pos_context.hpp"
-#include "state_machine/idle_state/idle_state.hpp"
+#include "state_machine/states/idle_state/idle_state.hpp"
 
 #include <gtest/gtest.h>
 

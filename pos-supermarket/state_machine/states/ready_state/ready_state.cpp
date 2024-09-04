@@ -1,7 +1,7 @@
 #include "ready_state.hpp"
 #include "config.hpp"
-#include "state_machine/idle_state/idle_state.hpp"
-#include "state_machine/items_state/items_state.hpp"
+#include "state_machine/states/idle_state/idle_state.hpp"
+#include "state_machine/states/items_state/items_state.hpp"
 
 #include <algorithm>
 #include <limits.h>

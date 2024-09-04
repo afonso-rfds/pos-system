@@ -4,7 +4,7 @@
 
 #include "iostream"
 #include "state_machine/context/pos_context.hpp"
-#include "state_machine/pos_state.hpp"
+#include "state_machine/states/pos_state.hpp"
 
 class IdleState : public POSState
 {
