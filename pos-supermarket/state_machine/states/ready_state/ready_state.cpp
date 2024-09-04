@@ -8,6 +8,8 @@
 
 void ReadyState::enterState(POSContext& context)
 {
+    context.cleanPreviousTransactionData();
+
     do
     {
         std::cout << "--- Ready to start registering products ---" << std::endl;

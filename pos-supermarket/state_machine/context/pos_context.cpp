@@ -57,6 +57,14 @@ void POSContext::updatePrice(const Product& product)
     currentTotalPrice    = currentSubtotalPrice + currentTaxPrice;
 }
 
+void POSContext::cleanPreviousTransactionData()
+{
+    currentSubtotalPrice = 0;
+    currentTaxPrice      = 0;
+    currentTotalPrice    = 0;
+    registeredProducts.clear();
+}
+
 //**** -------------- Setters -------------- ****
 
 void POSContext::setCurrentOperator(std::string operatorIdentifier)

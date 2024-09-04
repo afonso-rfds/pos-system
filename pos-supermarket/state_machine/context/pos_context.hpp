@@ -25,6 +25,9 @@ class POSContext
     /// @param product Product to add
     void addRegisteredProduct(const Product& product);
 
+    /// @brief Clears previous stored transaction data
+    void cleanPreviousTransactionData();
+
     //**** -------------- Setters -------------- ****
 
     /// @brief Set current operator's identifier
