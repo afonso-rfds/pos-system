@@ -22,6 +22,11 @@ void IdleState::processState(POSContext& context)
     do
     {
         std::cout << "Please identify yourself: ";
+
+        // In debug mode don't flush cin buffer
+#ifndef DEBUG_MODE_ENABLED
+        std::cin.ignore(INT_MAX, '\n');
+#endif
         std::getline(std::cin, userInput);
 
         if (!isValidName(userInput))
@@ -42,6 +47,7 @@ void IdleState::showWelcomeScreen()
         std::cout << "---------- Welcome to the supermarket! ----------\n";
         std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
 
+        // In debug mode don't flush cin buffer
 #ifndef DEBUG_MODE_ENABLED
         std::cin.ignore(INT_MAX, '\n');
 #endif

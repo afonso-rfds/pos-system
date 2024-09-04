@@ -17,11 +17,12 @@ list(FILTER PROJECT_SOURCES EXCLUDE REGEX ".*main.cpp$")
 # Add an executable for the tests (only including necessary files)
 add_executable(run_tests ${PROJECT_SOURCES} ${TEST_SOURCES})
 
-# Link the GoogleTest and GoogleMock libraries, and pthread
+# Link the GoogleTest, GoogleMock, SQLiteCpp libraries, and pthread
 target_link_libraries(run_tests
   PRIVATE GTest::gtest_main  # Use gtest_main for GoogleTest's main function
   PRIVATE GMock::gmock      # Link GoogleMock
   PRIVATE GMock::gmock_main # Link GoogleMock main
+  PRIVATE SQLiteCpp          # Link SQLiteCpp
   PRIVATE pthread
 )
 

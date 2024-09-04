@@ -22,6 +22,12 @@ add_executable(main ${SOURCES})
 # Add include directories
 target_include_directories(main PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
 
+# Locate SQLiteCpp
+find_package(SQLiteCpp REQUIRED)
+
+# Link SQLiteCpp to the main executable
+target_link_libraries(main SQLiteCpp)
+
 # Include the tests directory for the testing setup
 add_subdirectory(tests)
 
