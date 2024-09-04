@@ -17,6 +17,9 @@ class ReadyState : public POSState
     void processState(POSContext& context) override;
 
   private:
+    /// @brief Gets input from the user
+    void getUserInput();
+
     /// @brief Commands from the user
     std::string userInput;
 };

@@ -13,14 +13,7 @@ void ReadyState::enterState(POSContext& context)
         std::cout << "--- Ready to start registering products ---" << std::endl;
         std::cout << "Press \"Enter\" to continue or type \"Cancel\" to go to the previous menu" << std::endl;
 
-#ifndef DEBUG_MODE_ENABLED
-        std::cin.ignore(INT_MAX, '\n');
-#endif
-
-        std::getline(std::cin, userInput);
-        std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-        std::cout << std::endl
-                  << std::endl;
+        getUserInput();
 
     } while (userInput != "CANCEL" && !userInput.empty());
 }
@@ -39,4 +32,16 @@ void ReadyState::processState(POSContext& context)
     {
         context.transitionToState(new ItemsState());
     }
+}
+
+void ReadyState::getUserInput()
+{
+    //  In debug mode don't flush cin buffer
+#ifndef DEBUG_MODE_ENABLED
+    std::cin.ignore(INT_MAX, '\n');
+#endif
+    std::getline(std::cin, userInput);
+    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
+    std::cout << std::endl
+              << std::endl;
 }

@@ -9,7 +9,20 @@
 void IdleState::enterState(POSContext& context)
 {
     context.setCurrentOperator(""); // Assign no operator
-    showWelcomeScreen();
+
+    do
+    {
+        std::cout << "---------- Welcome to the supermarket! ----------\n";
+        std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
+
+        getUserInput();
+
+    } while (userInput != "EXIT" && !userInput.empty());
+
+    if (userInput == "EXIT")
+    {
+        exit(EXIT_SUCCESS);
+    }
 }
 
 void IdleState::exitState(POSContext& context)
@@ -23,12 +36,7 @@ void IdleState::processState(POSContext& context)
     do
     {
         std::cout << "Please identify yourself: ";
-
-        // In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-        std::cin.ignore(INT_MAX, '\n');
-#endif
-        std::getline(std::cin, userInput);
+        getUserInput();
 
         if (!isValidName(userInput))
         {
@@ -42,26 +50,14 @@ void IdleState::processState(POSContext& context)
     context.transitionToState(new ReadyState());
 }
 
-void IdleState::showWelcomeScreen()
+void IdleState::getUserInput()
 {
-    do
-    {
-        std::cout << "---------- Welcome to the supermarket! ----------\n";
-        std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
-
-        // In debug mode don't flush cin buffer
+    //  In debug mode don't flush cin buffer
 #ifndef DEBUG_MODE_ENABLED
-        std::cin.ignore(INT_MAX, '\n');
+    std::cin.ignore(INT_MAX, '\n');
 #endif
-        std::getline(std::cin, userInput);
-        std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-
-    } while (userInput != "EXIT" && !userInput.empty());
-
-    if (userInput == "EXIT")
-    {
-        exit(EXIT_SUCCESS);
-    }
+    std::getline(std::cin, userInput);
+    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
 }
 
 bool IdleState::isValidName(std::string operatorsName)

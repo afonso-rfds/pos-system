@@ -17,8 +17,8 @@ class IdleState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Print "welcome" screen and process commands
-    void showWelcomeScreen();
+    /// @brief Gets input from the user
+    void getUserInput();
 
     /// @brief Check weather the operator's name is valid (alphabetic chars only)
     /// @param operatorsName Name of operator to validade
