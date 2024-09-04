@@ -17,9 +17,6 @@ class ReadyState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Print "welcome" screen and process commands
-    void showWelcomeScreen();
-
     /// @brief Commands from the user
     std::string userInput;
 };
