@@ -21,7 +21,7 @@ TEST_F(ProductsDatabaseTest, findProduct_validProduct)
     EXPECT_EQ(product->EAN13, "0000000000000");
     EXPECT_EQ(product->productName, "Apple");
     EXPECT_DOUBLE_EQ(product->price, 0.5);
-    EXPECT_DOUBLE_EQ(product->taxRate, 23);
+    EXPECT_DOUBLE_EQ(product->taxRate, 0.23);
 }
 
 TEST_F(ProductsDatabaseTest, findProduct_invalidProduct)

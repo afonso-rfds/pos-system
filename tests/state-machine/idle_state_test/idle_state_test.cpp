@@ -31,5 +31,5 @@ TEST_F(IdleStateTest, processState)
 
     // Current state is ReadyState. Current operator's identifier is 'User'
     ASSERT_TRUE(dynamic_cast<ReadyState*>(posContext->getCurrentState()) != nullptr);
-    EXPECT_EQ(posContext->getCurrentOperator(), "User");
+    EXPECT_EQ(posContext->getCurrentOperator(), "USER");
 }
