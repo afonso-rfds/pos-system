@@ -62,6 +62,7 @@ void POSContext::cleanPreviousTransactionData()
     currentSubtotalPrice = 0;
     currentTaxPrice      = 0;
     remainingToPay       = 0;
+    paymentMethod        = "";
     registeredProducts.clear();
 }
 
