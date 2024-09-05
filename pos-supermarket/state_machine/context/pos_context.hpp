@@ -46,10 +46,6 @@ class POSContext
     /// @param changeToSet Change
     void setCashChange(const float changeToSet);
 
-    /// @brief Set invoice number
-    /// @param number invoice number
-    void setInvoiceNumber(std::string number);
-
     //**** -------------- Getters -------------- ****
 
     /// @brief Get current active state instance
@@ -88,10 +84,6 @@ class POSContext
     /// @brief Get store identification
     /// @return Store identification
     std::string getStoreIdentification();
-
-    /// @brief Get invoice number
-    /// @return invoice number
-    std::string getInvoiceNumber();
 
   private:
     /// @brief Set new state
@@ -133,7 +125,4 @@ class POSContext
 
     /// @brief Store identification
     std::string storeIdentification = "Afonso's Supermarket";
-
-    /// @brief Invoice Number
-    std::string invoiceNumber;
 };

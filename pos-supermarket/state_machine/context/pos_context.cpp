@@ -63,7 +63,6 @@ void POSContext::cleanPreviousTransactionData()
     currentTaxPrice      = 0;
     remainingToPay       = 0;
     change               = 0;
-    invoiceNumber        = "";
     paymentMethod        = "";
     registeredProducts.clear();
 }
@@ -96,11 +95,6 @@ void POSContext::setPaymentMethod(const std::string& methodToPay)
 void POSContext::setCashChange(const float changeToSet)
 {
     change = changeToSet;
-}
-
-void POSContext::setInvoiceNumber(std::string number)
-{
-    invoiceNumber = number;
 }
 
 //**** -------------- Getters -------------- ****
@@ -142,15 +136,11 @@ const std::string& POSContext::getPaymentMethod() const
 
 float POSContext::getCashChange()
 {
+    change = std::floor(change * 100.0f) / 100.0f;
     return change;
 }
 
 std::string POSContext::getStoreIdentification()
 {
     return storeIdentification;
-}
-
-std::string POSContext::getInvoiceNumber()
-{
-    return invoiceNumber;
 }

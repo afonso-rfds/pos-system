@@ -56,7 +56,7 @@ The system operates through the following states:
 
 After building, you can run the program with:
 ```bash
-./pos_supermarket
+./pos-supermarket
 ```
 
 Start by selecting an operator, register products, process payments, and save or view previous transactions.
