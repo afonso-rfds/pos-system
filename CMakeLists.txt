@@ -17,16 +17,16 @@ file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
 list(FILTER SOURCES EXCLUDE REGEX "CMakeFiles")
 
 # Add an executable to the project with all found source files
-add_executable(main ${SOURCES})
+add_executable(pos-supermarket ${SOURCES})
 
 # Add include directories
-target_include_directories(main PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
+target_include_directories(pos-supermarket PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
 
 # Locate SQLiteCpp
 find_package(SQLiteCpp REQUIRED)
 
-# Link SQLiteCpp to the main executable
-target_link_libraries(main SQLiteCpp)
+# Link SQLiteCpp to the pos-supermarket executable
+target_link_libraries(pos-supermarket SQLiteCpp)
 
 # Include the tests directory for the testing setup
 add_subdirectory(tests)
