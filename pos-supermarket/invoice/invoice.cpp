@@ -2,7 +2,7 @@
 
 #include "iostream"
 
-void Invoice::printInvoice()
+void Invoice::printInvoice() const
 {
     std::cout << "*---------------------------------*" << std::endl;
     std::cout << "*----------- Invoice -------------*" << std::endl;
@@ -13,6 +13,19 @@ void Invoice::printInvoice()
     std::cout << std::endl;
 
     printRegisteredItems();
+    printData();
+}
+
+void Invoice::printSavedData() const
+{
+    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << "*----------- Invoice -------------*" << std::endl;
+    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << "    Store: " << storeIdentification << std::endl;
+    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << std::endl;
+
     printData();
 }
 

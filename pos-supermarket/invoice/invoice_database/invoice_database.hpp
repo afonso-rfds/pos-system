@@ -1,38 +1,50 @@
-#ifndef INVOICES_DATABASE_HPP
-#define INVOICES_DATABASE_HPP
+#pragma once
 
-#include "product.hpp"
+#include "invoice/invoice.hpp"
+
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
-class InvoicesDatabase
+const std::string INVOICE_DATABASE_PATH = "/home/afonso/workspace/pos-exercise/pos-supermarket/database/invoices.db";
+
+class InvoiceDatabase
 {
   public:
-    // Deleted copy constructor and assignment operator to ensure singleton pattern
-    InvoicesDatabase(const InvoicesDatabase&)            = delete;
-    InvoicesDatabase& operator=(const InvoicesDatabase&) = delete;
+    /// @brief Delete copy constructor and assignment operator to prevent copies
+    InvoiceDatabase(const InvoiceDatabase&)            = delete;
+    InvoiceDatabase& operator=(const InvoiceDatabase&) = delete;
 
-    /// @brief Singleton access
-    /// @return Instance to sole object of InvoicesDatabase
-    static InvoicesDatabase* getInstance();
+    /// @brief Destructor
+    ~InvoiceDatabase() = default;
 
-    // Method to save an invoice
-    bool saveInvoice(const std::string& invoiceNumber, const std::string& operatorId, float subtotal, float tax, float total, const std::unordered_map<std::string, std::pair<Product, int>>& products, float cashChange);
+    /// @brief Get the singleton instance of the InvoiceDatabase
+    /// @return Instance to sole object of InvoiceDatabase
+    static InvoiceDatabase* getInstance();
 
-    // Method to retrieve an invoice (will be useful in another state)
-    std::unordered_map<std::string, std::pair<Product, int>> getInvoice(const std::string& invoiceNumber);
+    /// @brief Add a new invoice to the database
+    /// @param invoice Invoice to be added
+    void addInvoice(const Invoice& invoice);
+
+    /// @brief Print all invoices stored in the database
+    void printAllInvoices() const;
+
+    /// @brief Remove all invoices from the database
+    void removeAllInvoices();
 
   private:
-    // Constructor is private to enforce singleton pattern
-    InvoicesDatabase();
+    /// @brief Private constructor for Singleton pattern
+    InvoiceDatabase();
 
-    // SQLite database pointer
+    /// @brief Retrieve an invoice from the database using the invoice number
+    /// @param invoiceNumber The unique number of the invoice
+    /// @return A pointer to the invoice if found, nullptr otherwise
+    Invoice* getInvoice(const std::string& invoiceNumber) const;
+
+    /// @brief Unique instance of singleton
+    static InvoiceDatabase* singletonInstance;
+
+    /// @brief Connection to the database
     std::unique_ptr<SQLite::Database> invoiceDatabase;
-
-    // Static singleton instance
-    static InvoicesDatabase* singletonInstance;
 };
-
-#endif // INVOICES_DATABASE_HPP

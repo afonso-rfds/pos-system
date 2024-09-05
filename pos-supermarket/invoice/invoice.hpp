@@ -13,7 +13,10 @@ class Invoice
     ~Invoice() = default;
 
     /// @brief Print the whole invoice
-    void printInvoice();
+    void printInvoice() const;
+
+    /// @brief Print saved invoice data
+    void printSavedData() const;
 
     /// @brief Print the registered items
     void printRegisteredItems() const;
