@@ -47,4 +47,7 @@ class InvoiceDatabase
 
     /// @brief Connection to the database
     std::unique_ptr<SQLite::Database> invoiceDatabase;
+
+    /// @brief Flag to track if the database is open
+    bool openStatus = false;
 };

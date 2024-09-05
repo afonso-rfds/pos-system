@@ -26,6 +26,10 @@ class IdleState : public POSState
     ///         false: Invalid name
     bool isValidName(std::string operatorsName);
 
+    /// @brief Process the beginning of a transaction
+    /// @param context Current state machine context
+    void processTransaction(POSContext& context);
+
     /// @brief Commands from the user
     std::string userInput;
 };

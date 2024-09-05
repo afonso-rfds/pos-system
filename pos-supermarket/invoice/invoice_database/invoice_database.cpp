@@ -8,6 +8,7 @@ InvoiceDatabase::InvoiceDatabase()
 {
     // Create or open the database file
     invoiceDatabase.reset(new SQLite::Database(INVOICE_DATABASE_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE));
+    openStatus = true;
 
     // Create the table if it doesn't exist
     invoiceDatabase->exec("CREATE TABLE IF NOT EXISTS invoices ("
@@ -85,7 +86,7 @@ void InvoiceDatabase::printAllInvoices() const
 
     if (!query.executeStep())
     {
-        std::cout << "No invoices in database!" << std::endl;
+        std::cout << "--- No invoices in database! ---\n\n";
         return;
     }
 
@@ -105,6 +106,25 @@ void InvoiceDatabase::printAllInvoices() const
 
 void InvoiceDatabase::removeAllInvoices()
 {
+    // Check if the database exists and is accessible
+    if (!openStatus)
+    {
+        std::cout << "--- Database does not exist or is not accessible!--- \n\n"
+                  << std::endl;
+        return;
+    }
+
+    // Check if there are any invoices in the database
+    SQLite::Statement checkQuery(*invoiceDatabase, "SELECT COUNT(*) FROM invoices;");
+    checkQuery.executeStep();
+
+    if (checkQuery.getColumn(0).getInt() == 0)
+    {
+        std::cout << "---- No invoices to delete. The database is empty! ---\n\n";
+        return;
+    }
+
+    // Proceed with deletion if invoices exist
     SQLite::Transaction transaction(*invoiceDatabase);
 
     // Delete all entries from invoice_products first to maintain referential integrity
@@ -116,4 +136,6 @@ void InvoiceDatabase::removeAllInvoices()
     invoiceQuery.exec();
 
     transaction.commit();
+
+    std::cout << "--- Invoices deleted!--- \n\n";
 }
