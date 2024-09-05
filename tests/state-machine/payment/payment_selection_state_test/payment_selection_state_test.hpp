@@ -2,7 +2,7 @@
 
 #include "state_machine/context/pos_context.hpp"
 #include "state_machine/states/items_state/items_state.hpp"
-#include "state_machine/states/payment_states/payment_selection_state/payment_selection_state.hpp"
+#include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 
 #include <gtest/gtest.h>
 

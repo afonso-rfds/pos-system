@@ -1,6 +1,6 @@
 #include "payment_selection_state.hpp"
 #include "config.hpp"
-#include "state_machine/states/payment_states/partial_payment_state/partial_payment_state.hpp"
+#include "state_machine/states/payment/partial_payment_state/partial_payment_state.hpp"
 
 #include "iostream"
 #include <algorithm>

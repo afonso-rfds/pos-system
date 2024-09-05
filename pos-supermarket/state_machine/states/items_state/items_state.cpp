@@ -2,7 +2,7 @@
 
 #include "config.hpp"
 #include "products/products_database/products_database.hpp"
-#include "state_machine/states/payment_states/payment_selection_state/payment_selection_state.hpp"
+#include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
 #include "iostream"

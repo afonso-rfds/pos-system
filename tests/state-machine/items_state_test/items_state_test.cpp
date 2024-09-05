@@ -1,6 +1,6 @@
 #include "items_state_test.hpp"
 
-#include "state_machine/states/payment_states/payment_selection_state/payment_selection_state.hpp"
+#include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
 INLINE_FUNCTION void ItemsStateTest::createCustomInputString(std::string inputString)
