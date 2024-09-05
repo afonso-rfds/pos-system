@@ -1,9 +1,9 @@
 #include "payment_completion_state.hpp"
 #include "config.hpp"
-#include "state_machine/states/ready_state/ready_state.hpp"
-
 #include "iostream"
+#include "state_machine/states/ready_state/ready_state.hpp"
 #include <algorithm>
+#include <invoice/invoice_database/invoice_database.hpp>
 #include <limits.h>
 
 #include <chrono>
@@ -69,6 +69,8 @@ void PaymentCompletionState::getUserInput()
 
 void PaymentCompletionState::saveTransaction(POSContext& context)
 {
+    InvoiceDatabase::getInstance()->addInvoice(*invoice);
+
     std::cout << "Transaction saved!" << std::endl;
     std::cout << "Start new transaction or exit" << std::endl;
 
