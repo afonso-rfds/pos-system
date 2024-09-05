@@ -49,12 +49,12 @@ void POSContext::updatePrice(const Product& product)
     // Calculate Subtotal price (price without tax), tax and total price
     currentSubtotalPrice += product.price;
     currentTaxPrice += product.price * product.taxRate;
+    remainingToPay = currentSubtotalPrice + currentTaxPrice;
 
     // Round to 2 decimals
-    currentSubtotalPrice = std::round(currentSubtotalPrice * 100.0) / 100.0;
-    currentTaxPrice      = std::round(currentTaxPrice * 100.0) / 100.0;
-
-    remainingToPay       = currentSubtotalPrice + currentTaxPrice;
+    currentSubtotalPrice = std::floor(currentSubtotalPrice * 100.0f) / 100.0f;
+    currentTaxPrice      = std::floor(currentTaxPrice * 100.0f) / 100.0f;
+    remainingToPay       = std::floor(remainingToPay * 100.0f) / 100.0f;
 }
 
 void POSContext::cleanPreviousTransactionData()
@@ -75,12 +75,25 @@ void POSContext::setCurrentOperator(std::string operatorIdentifier)
 
 void POSContext::setRemainingToPay(float paymentLeft)
 {
-    remainingToPay = paymentLeft;
+
+    if (paymentLeft > 0 && paymentLeft < 0.01) // Fault tolerance due to float type
+    {
+        remainingToPay = 0;
+    }
+    else
+    {
+        remainingToPay = paymentLeft;
+    }
 }
 
 void POSContext::setPaymentMethod(const std::string& methodToPay)
 {
     paymentMethod = methodToPay;
+}
+
+void POSContext::setCashChange(const float changeToSet)
+{
+    change = changeToSet;
 }
 
 //**** -------------- Getters -------------- ****
@@ -118,4 +131,9 @@ const std::unordered_map<std::string, std::pair<Product, int>>& POSContext::getR
 const std::string& POSContext::getPaymentMethod() const
 {
     return paymentMethod;
+}
+
+float POSContext::getCashChange()
+{
+    return change;
 }

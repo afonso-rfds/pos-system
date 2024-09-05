@@ -42,6 +42,10 @@ class POSContext
     /// @param paymentMethod Chosen payment method
     void setPaymentMethod(const std::string& methodToPay);
 
+    /// @brief Set the cash change (payment with cash greater than required)
+    /// @param changeToSet Change
+    void setCashChange(const float changeToSet);
+
     //**** -------------- Getters -------------- ****
 
     /// @brief Get current active state instance
@@ -73,6 +77,10 @@ class POSContext
     /// @return Payment method chosen
     const std::string& getPaymentMethod() const;
 
+    /// @brief Get the cash change (payment with cash greater than required)
+    /// @return Change
+    float getCashChange();
+
   private:
     /// @brief Set new state
     /// @param[in] newState New active state
@@ -96,6 +104,9 @@ class POSContext
 
     /// @brief Price of the current active transaction
     float currentTaxPrice = 0;
+
+    /// @brief Payment with cash greater than required (needs to return change)
+    float change = 0;
 
     /// @brief Products registered so far in the transaction, mapped by product name or identifier
     /// @note Key - Value pair in which Value is a std::pair composed of Product and number of ocurrences of this product
