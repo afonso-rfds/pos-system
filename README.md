@@ -3,6 +3,13 @@
 
 This project is a C++ point-of-sale (POS) system for managing product registration, invoicing, and payments in a supermarket. It uses a state machine and singleton pattern to handle transactions efficiently.
 
+## Tool Requirements
+- Requirements
+- C++11
+- CMake
+- GoogleTest
+- SQLite
+
 ## Features
 
 - **Main Menu**: Start a new transaction, show saved invoices, delete saved invoices, or exit the program.
