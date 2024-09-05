@@ -13,8 +13,9 @@
 
 void PaymentCompletionState::enterState(POSContext& context)
 {
-    context.setInvoiceNumber(generateInvoiceNumber());
-    printInvoice(context);
+    invoice = createInvoice(context);
+    //  context.setInvoiceNumber(generateInvoiceNumber());
+    invoice->printInvoice();
 }
 
 void PaymentCompletionState::exitState(POSContext& context)
@@ -66,50 +67,6 @@ void PaymentCompletionState::getUserInput()
               << std::endl;
 }
 
-void PaymentCompletionState::printInvoice(POSContext& context)
-{
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << "*----------- Invoice -------------*" << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << "    Store: " << context.getStoreIdentification() << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << std::endl;
-
-    printRegisteredItems(context);
-    printData(context);
-}
-
-void PaymentCompletionState::printRegisteredItems(POSContext& context) const
-{
-    const auto& products = context.getRegisteredProducts();
-
-    for (const auto& product : products)
-    {
-        std::cout << "          ";
-        float productPrice = product.second.second * product.second.first.price;
-        std::cout
-            << product.second.second << " x " << product.second.first.productName << ": " << productPrice << "€" << std::endl;
-    }
-}
-
-void PaymentCompletionState::printData(POSContext& context) const
-{
-    // Now print the registered items
-    std::cout << std::endl
-              << "  Subtotal: " << context.getSubtotalPrice() << "€"
-              << std::endl
-              << "  Tax:      " << context.getTaxPrice() << "€" << std::endl
-              << "  Total:    " << context.getSubtotalPrice() + context.getTaxPrice() << "€" << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << "  Paid:     " << context.getSubtotalPrice() + context.getTaxPrice() + context.getCashChange() << "€" << std::endl;
-    std::cout << "  Change:   " << context.getCashChange() << "€" << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-    std::cout << "  Operator: " << context.getCurrentOperator() << std::endl;
-    std::cout << "  Invoice number: " << context.getInvoiceNumber() << std::endl;
-    std::cout << "*---------------------------------*" << std::endl;
-}
-
 void PaymentCompletionState::saveTransaction(POSContext& context)
 {
     std::cout << "Transaction saved!" << std::endl;
@@ -153,4 +110,21 @@ std::string PaymentCompletionState::generateInvoiceNumber()
         << std::setw(3) << std::setfill('0') << randomPart;
 
     return oss.str();
+}
+
+Invoice* PaymentCompletionState::createInvoice(POSContext& context)
+{
+    Invoice* createdInvoice                = new Invoice();
+
+    createdInvoice->registeredProducts     = context.getRegisteredProducts();
+    createdInvoice->storeIdentification    = context.getStoreIdentification();
+    createdInvoice->subtotalPrice          = context.getSubtotalPrice();
+    createdInvoice->taxPrice               = context.getTaxPrice();
+    createdInvoice->totalPrice             = createdInvoice->subtotalPrice + createdInvoice->taxPrice;
+    createdInvoice->amountPaid             = context.getSubtotalPrice() + context.getTaxPrice() + context.getCashChange();
+    createdInvoice->cashChange             = context.getCashChange();
+    createdInvoice->operatorIdentification = context.getCurrentOperator();
+    createdInvoice->invoiceNumber          = generateInvoiceNumber();
+
+    return createdInvoice;
 }

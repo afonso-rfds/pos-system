@@ -63,7 +63,7 @@ void POSContext::cleanPreviousTransactionData()
     currentTaxPrice      = 0;
     remainingToPay       = 0;
     change               = 0;
-    invoiceNumber        = 0;
+    invoiceNumber        = "";
     paymentMethod        = "";
     registeredProducts.clear();
 }
