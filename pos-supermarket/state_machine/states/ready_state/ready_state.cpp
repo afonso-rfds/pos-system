@@ -13,7 +13,7 @@ void ReadyState::enterState(POSContext& context)
     do
     {
         std::cout << "--- Ready to start registering products ---" << std::endl;
-        std::cout << "Press \"Enter\" to continue or type \"Cancel\" to go to the previous menu" << std::endl;
+        std::cout << "Press \"Enter\" to continue or type \"Cancel\" to go to the main menu" << std::endl;
 
         getUserInput();
 
