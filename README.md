@@ -34,7 +34,7 @@ The system operates through the following states:
 1. Clone the repository:
    ```bash
    git clone https://github.com/afonso-rfds/pos-exercise.git
-   cd pos-supermarket
+   cd pos-exercise
    ```
 
 2. Build the project using CMake:
