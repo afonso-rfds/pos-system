@@ -13,7 +13,14 @@ void PaymentSelectionState::enterState(POSContext& context)
     std::cout << "  --- Remaining to pay: " << context.getRemainingToPay() << "€ ---" << std::endl;
     std::cout << "-----------------------------------" << std::endl
               << std::endl;
-    ;
+}
+
+void PaymentSelectionState::exitState(POSContext& context)
+{
+}
+
+void PaymentSelectionState::processState(POSContext& context)
+{
     do
     {
         std::cout << "You can pay via MBWay, card or cash" << std::endl;
@@ -24,14 +31,6 @@ void PaymentSelectionState::enterState(POSContext& context)
     } while (userInput != "MBWAY" && userInput != "CARD" && userInput != "CASH");
 
     context.setPaymentMethod(userInput);
-}
-
-void PaymentSelectionState::exitState(POSContext& context)
-{
-}
-
-void PaymentSelectionState::processState(POSContext& context)
-{
     context.transitionToState(new PartialPaymentState);
 }
 
