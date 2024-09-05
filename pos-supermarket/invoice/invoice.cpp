@@ -24,7 +24,6 @@ void Invoice::printSavedData() const
     std::cout << "*---------------------------------*" << std::endl;
     std::cout << "    Store: " << storeIdentification << std::endl;
     std::cout << "*---------------------------------*" << std::endl;
-    std::cout << std::endl;
 
     printData();
 }
@@ -45,8 +44,7 @@ void Invoice::printRegisteredItems() const
 void Invoice::printData() const
 {
     // Now print the registered items
-    std::cout << std::endl
-              << "  Subtotal: " << subtotalPrice << "€"
+    std::cout << "  Subtotal: " << subtotalPrice << "€"
               << std::endl
               << "  Tax:      " << taxPrice << "€" << std::endl
               << "  Total:    " << totalPrice << "€" << std::endl;

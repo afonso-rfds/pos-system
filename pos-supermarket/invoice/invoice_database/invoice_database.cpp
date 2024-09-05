@@ -56,7 +56,8 @@ void InvoiceDatabase::addInvoice(const Invoice& invoice)
 Invoice* InvoiceDatabase::getInvoice(const std::string& invoiceNumber) const
 {
     SQLite::Statement query(*invoiceDatabase,
-                            "SELECT invoice_number, customer_name, issue_date, total_amount FROM invoices WHERE invoice_number = ?;");
+                            "SELECT invoice_number, store_identification, subtotal_price, tax_price, total_price, amount_paid, cash_change, operator_identification "
+                            "FROM invoices WHERE invoice_number = ?;");
 
     query.bind(1, invoiceNumber);
 
@@ -65,14 +66,14 @@ Invoice* InvoiceDatabase::getInvoice(const std::string& invoiceNumber) const
         // Create an Invoice object and populate its fields with the query result
         auto* invoice                   = new Invoice();
 
-        invoice->invoiceNumber          = query.getColumn(1).getString();
-        invoice->storeIdentification    = query.getColumn(2).getString();
-        invoice->subtotalPrice          = query.getColumn(3).getDouble();
-        invoice->taxPrice               = query.getColumn(4).getDouble();
-        invoice->totalPrice             = query.getColumn(5).getDouble();
-        invoice->amountPaid             = query.getColumn(6).getDouble();
-        invoice->cashChange             = query.getColumn(7).getDouble();
-        invoice->operatorIdentification = query.getColumn(8).getString();
+        invoice->invoiceNumber          = query.getColumn(0).getString();
+        invoice->storeIdentification    = query.getColumn(1).getString();
+        invoice->subtotalPrice          = query.getColumn(2).getDouble();
+        invoice->taxPrice               = query.getColumn(3).getDouble();
+        invoice->totalPrice             = query.getColumn(4).getDouble();
+        invoice->amountPaid             = query.getColumn(5).getDouble();
+        invoice->cashChange             = query.getColumn(6).getDouble();
+        invoice->operatorIdentification = query.getColumn(7).getString();
 
         return invoice;
     }
@@ -82,14 +83,16 @@ Invoice* InvoiceDatabase::getInvoice(const std::string& invoiceNumber) const
 
 void InvoiceDatabase::printAllInvoices() const
 {
-    SQLite::Statement query(*invoiceDatabase, "SELECT invoice_number FROM invoices;");
+    SQLite::Statement query(*invoiceDatabase, "SELECT * FROM invoices;");
 
+    // Check if there are results
     if (!query.executeStep())
     {
         std::cout << "--- No invoices in database! ---\n\n";
         return;
     }
 
+    // Iterate over all results
     do
     {
         std::string invoiceNumber = query.getColumn(0).getString();
@@ -109,8 +112,7 @@ void InvoiceDatabase::removeAllInvoices()
     // Check if the database exists and is accessible
     if (!openStatus)
     {
-        std::cout << "--- Database does not exist or is not accessible!--- \n\n"
-                  << std::endl;
+        std::cout << "--- Database does not exist or is not accessible! ---\n\n";
         return;
     }
 
@@ -127,9 +129,24 @@ void InvoiceDatabase::removeAllInvoices()
     // Proceed with deletion if invoices exist
     SQLite::Transaction transaction(*invoiceDatabase);
 
-    // Delete all entries from invoice_products first to maintain referential integrity
-    SQLite::Statement productsQuery(*invoiceDatabase, "DELETE FROM invoice_products;");
-    productsQuery.exec();
+    // Check if the invoice_products table exists
+    bool tableExists = false;
+    SQLite::Statement checkTableQuery(*invoiceDatabase, "SELECT name FROM sqlite_master WHERE type='table' AND name='invoice_products';");
+    if (checkTableQuery.executeStep())
+    {
+        tableExists = true;
+    }
+
+    // Delete all entries from invoice_products if the table exists
+    if (tableExists)
+    {
+        SQLite::Statement productsQuery(*invoiceDatabase, "DELETE FROM invoice_products;");
+        productsQuery.exec();
+    }
+    else
+    {
+        std::cout << "---- Table 'invoice_products' does not exist. Skipping deletion of invoice_products. ---\n\n";
+    }
 
     // Then delete all entries from invoices
     SQLite::Statement invoiceQuery(*invoiceDatabase, "DELETE FROM invoices;");
@@ -137,5 +154,5 @@ void InvoiceDatabase::removeAllInvoices()
 
     transaction.commit();
 
-    std::cout << "--- Invoices deleted!--- \n\n";
+    std::cout << "--- Invoices deleted! ---\n\n";
 }
