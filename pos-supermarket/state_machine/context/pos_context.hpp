@@ -34,6 +34,14 @@ class POSContext
     /// @param currentOperator operator's identifier
     void setCurrentOperator(std::string operatorIdentifier);
 
+    /// @brief Set remaining to pay value
+    /// @param paymentLeft remaining to pay value
+    void setRemainingToPay(float paymentLeft);
+
+    /// @brief Set the selected payment method
+    /// @param paymentMethod Chosen payment method
+    void setPaymentMethod(const std::string& methodToPay);
+
     //**** -------------- Getters -------------- ****
 
     /// @brief Get current active state instance
@@ -44,9 +52,9 @@ class POSContext
     /// @return Current operator's identifier
     const std::string getCurrentOperator() const;
 
-    /// @brief Get current transaction price (subtotal + tax)
-    /// @return Current transaction price
-    const float getTotalPrice() const;
+    /// @brief Get remaining to pay value
+    /// @return Remaining to pay value
+    const float getRemainingToPay() const;
 
     /// @brief Get current subtotal price
     /// @return Current subtotal price
@@ -60,6 +68,10 @@ class POSContext
     /// @return Reference to the map of registered products
     const std::unordered_map<std::string, std::pair<Product, int>>&
     getRegisteredProducts() const;
+
+    /// @brief Get the selected payment method
+    /// @return Payment method chosen
+    const std::string& getPaymentMethod() const;
 
   private:
     /// @brief Set new state
@@ -77,7 +89,7 @@ class POSContext
     std::string currentOperator;
 
     /// @brief Price of the current active transaction
-    float currentTotalPrice = 0;
+    float remainingToPay = 0;
 
     /// @brief Price of the current active transaction
     float currentSubtotalPrice = 0;
@@ -91,4 +103,7 @@ class POSContext
     /// @param Product[Value.first]  Product to insert
     /// @param     int[Value.second] Number of ocurrences of Product so far
     std::unordered_map<std::string, std::pair<Product, int>> registeredProducts;
+
+    /// @brief Payment method selected by the user
+    std::string paymentMethod;
 };

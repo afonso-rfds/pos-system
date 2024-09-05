@@ -54,14 +54,14 @@ void POSContext::updatePrice(const Product& product)
     currentSubtotalPrice = std::round(currentSubtotalPrice * 100.0) / 100.0;
     currentTaxPrice      = std::round(currentTaxPrice * 100.0) / 100.0;
 
-    currentTotalPrice    = currentSubtotalPrice + currentTaxPrice;
+    remainingToPay       = currentSubtotalPrice + currentTaxPrice;
 }
 
 void POSContext::cleanPreviousTransactionData()
 {
     currentSubtotalPrice = 0;
     currentTaxPrice      = 0;
-    currentTotalPrice    = 0;
+    remainingToPay       = 0;
     registeredProducts.clear();
 }
 
@@ -70,6 +70,16 @@ void POSContext::cleanPreviousTransactionData()
 void POSContext::setCurrentOperator(std::string operatorIdentifier)
 {
     currentOperator = operatorIdentifier;
+}
+
+void POSContext::setRemainingToPay(float paymentLeft)
+{
+    remainingToPay = paymentLeft;
+}
+
+void POSContext::setPaymentMethod(const std::string& methodToPay)
+{
+    paymentMethod = methodToPay;
 }
 
 //**** -------------- Getters -------------- ****
@@ -84,9 +94,9 @@ const std::string POSContext::getCurrentOperator() const
     return currentOperator;
 }
 
-const float POSContext::getTotalPrice() const
+const float POSContext::getRemainingToPay() const
 {
-    return currentTotalPrice;
+    return remainingToPay;
 }
 
 const float POSContext::getSubtotalPrice() const
@@ -102,4 +112,9 @@ const float POSContext::getTaxPrice() const
 const std::unordered_map<std::string, std::pair<Product, int>>& POSContext::getRegisteredProducts() const
 {
     return registeredProducts;
+}
+
+const std::string& POSContext::getPaymentMethod() const
+{
+    return paymentMethod;
 }
