@@ -13,7 +13,8 @@ void ItemsState::enterState(POSContext& context)
 {
     std::cout << "--- Transaction started ---" << std::endl;
     std::cout << "Enter EAN13 of the products you want to register." << std::endl;
-    std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu" << std::endl;
+    std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu" << std::endl
+              << std::endl;
 }
 
 void ItemsState::exitState(POSContext& context)
@@ -24,7 +25,7 @@ void ItemsState::processState(POSContext& context)
 {
     do
     {
-        std::cout << "EAN: ";
+        std::cout << "[Done/Cancel/EAN13]: ";
         getUserInput();
 
         if (userInput == "DONE" || userInput == "CANCEL")
