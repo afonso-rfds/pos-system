@@ -65,7 +65,15 @@ void ItemsState::stateTransition(POSContext& context)
 {
     if (userInput == "DONE")
     {
-        context.transitionToState(new PaymentSelectionState());
+        // Prevent advancing without any products
+        if (context.getRegisteredProducts().empty())
+        {
+            context.transitionToState(new ItemsState());
+        }
+        else
+        {
+            context.transitionToState(new PaymentSelectionState());
+        }
     }
     else
     {
