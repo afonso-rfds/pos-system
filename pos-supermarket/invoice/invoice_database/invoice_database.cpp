@@ -143,10 +143,6 @@ void InvoiceDatabase::removeAllInvoices()
         SQLite::Statement productsQuery(*invoiceDatabase, "DELETE FROM invoice_products;");
         productsQuery.exec();
     }
-    else
-    {
-        std::cout << "---- Table 'invoice_products' does not exist. Skipping deletion of invoice_products. ---\n\n";
-    }
 
     // Then delete all entries from invoices
     SQLite::Statement invoiceQuery(*invoiceDatabase, "DELETE FROM invoices;");
