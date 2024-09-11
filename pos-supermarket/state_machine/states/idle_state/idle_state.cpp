@@ -29,10 +29,6 @@ void IdleState::enterState(POSContext& context)
     }
 }
 
-void IdleState::exitState(POSContext& context)
-{
-}
-
 void IdleState::processState(POSContext& context)
 {
     if (userInput == "SHOW")

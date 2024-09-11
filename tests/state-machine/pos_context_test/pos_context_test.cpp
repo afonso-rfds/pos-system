@@ -20,7 +20,6 @@ TEST_F(POSContextTest, getCurrentState)
 
 TEST_F(POSContextTest, transitionToState)
 {
-    EXPECT_CALL(*mockInitialState, exitState(::testing::Ref(*posContext))).Times(1);
     EXPECT_CALL(*mockSecondState, enterState(::testing::Ref(*posContext))).Times(1);
 
     posContext->transitionToState(mockSecondState);

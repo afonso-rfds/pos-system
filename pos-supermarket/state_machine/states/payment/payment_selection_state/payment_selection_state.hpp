@@ -10,6 +10,5 @@ class PaymentSelectionState : public BaseState
     ~PaymentSelectionState() = default;
 
     void enterState(POSContext& context) override;
-    void exitState(POSContext& context) override;
     void processState(POSContext& context) override;
 };

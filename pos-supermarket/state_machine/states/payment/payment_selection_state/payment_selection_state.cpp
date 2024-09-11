@@ -12,10 +12,6 @@ void PaymentSelectionState::enterState(POSContext& context)
     std::cout << "-----------------------------------\n\n";
 }
 
-void PaymentSelectionState::exitState(POSContext& context)
-{
-}
-
 void PaymentSelectionState::processState(POSContext& context)
 {
     do

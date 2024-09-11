@@ -11,7 +11,6 @@ class PaymentCompletionState : public BaseState
     ~PaymentCompletionState() = default;
 
     void enterState(POSContext& context) override;
-    void exitState(POSContext& context) override;
     void processState(POSContext& context) override;
 
   private:

@@ -13,10 +13,6 @@ void ItemsState::enterState(POSContext& context)
     std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu\n\n";
 }
 
-void ItemsState::exitState(POSContext& context)
-{
-}
-
 void ItemsState::processState(POSContext& context)
 {
     do

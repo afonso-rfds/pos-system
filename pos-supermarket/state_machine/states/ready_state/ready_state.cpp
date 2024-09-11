@@ -18,10 +18,6 @@ void ReadyState::enterState(POSContext& context)
     } while (userInput != "CANCEL" && !userInput.empty());
 }
 
-void ReadyState::exitState(POSContext& context)
-{
-}
-
 void ReadyState::processState(POSContext& context)
 {
     if (userInput == "CANCEL")

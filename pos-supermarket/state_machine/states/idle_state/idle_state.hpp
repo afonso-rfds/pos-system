@@ -12,7 +12,6 @@ class IdleState : public BaseState
     ~IdleState() = default;
 
     void enterState(POSContext& context) override;
-    void exitState(POSContext& context) override;
     void processState(POSContext& context) override;
 
   private:

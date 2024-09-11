@@ -15,10 +15,6 @@ void PaymentCompletionState::enterState(POSContext& context)
     invoice->printInvoice();
 }
 
-void PaymentCompletionState::exitState(POSContext& context)
-{
-}
-
 void PaymentCompletionState::processState(POSContext& context)
 {
     std::cout << "\nThanks for your purchase!\n";

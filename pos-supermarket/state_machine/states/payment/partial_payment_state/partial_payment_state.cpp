@@ -22,10 +22,6 @@ void PartialPaymentState::enterState(POSContext& context)
     }
 }
 
-void PartialPaymentState::exitState(POSContext& context)
-{
-}
-
 void PartialPaymentState::processState(POSContext& context)
 {
     getUserInput();

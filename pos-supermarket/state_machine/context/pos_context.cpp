@@ -21,7 +21,6 @@ void POSContext::processCurrentState()
 
 void POSContext::transitionToState(POSState* newState)
 {
-    currentState->exitState(*this);
     setState(newState);
 }
 
