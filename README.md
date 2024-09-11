@@ -15,11 +15,11 @@ This project is a C++ point-of-sale (POS) system for managing product registrati
 - **Main Menu**: Start a new transaction, show saved invoices, delete saved invoices, or exit the program.
 - **Operator Identification**: Start by selecting an operator name to identify yourself.
 - **Product Registration**: Enter EAN13 codes to fetch product details from the products database:
-  - `0000000000000` - Apple     - €0.50
-  - `0000000000001` - Candy Bar - €1.00
-  - `0000000000002` - Water     - €0.75
-  - `0000000000003` - Eggs      - €3.55
-  - `0000000000004` - Bread     - €1.25
+  - `0000000000000` - Apple     - 0.50€
+  - `0000000000001` - Candy Bar - 1.00€
+  - `0000000000002` - Water     - 0.75€
+  - `0000000000003` - Eggs      - 3.55€
+  - `0000000000004` - Bread     - 1.25€
 - **Partial Payments**: Support for multiple payment methods (MBWay, card, cash). If paying with cash, overpayments are accepted, and change is calculated and displayed.
 - **Transaction History**: Save each completed transaction in the invoice database.
 
