@@ -13,7 +13,7 @@ TEST_F(PaymentSelectionStateTest, processState)
     createCustomInputString("mbway");
 
     paymentSelectionState = new PaymentSelectionState();
-    posContext            = new POSContext(paymentSelectionState);
+    posContext            = new POSContext(paymentSelectionState, "Afonso's Supermarket");
 
     paymentSelectionState->processState(*posContext);
     ASSERT_TRUE(dynamic_cast<PartialPaymentState*>(posContext->getCurrentState()) != nullptr);

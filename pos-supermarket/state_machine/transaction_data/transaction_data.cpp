@@ -1,30 +1,8 @@
-#include "pos_context.hpp"
-#include "state_machine/states/pos_state.hpp"
+#include "state_machine/transaction_data/transaction_data.hpp"
 
 #include <cmath>
 
-POSContext::POSContext(POSState* initialState, std::string storeIdentifier) : currentState(initialState), transactionData(storeIdentifier)
-{
-    currentState->enterState(*this);
-}
-
-void POSContext::setState(POSState* newState)
-{
-    currentState.reset(newState); // Clean up the old state and switch to the new one
-    currentState->enterState(*this);
-}
-
-void POSContext::processCurrentState()
-{
-    currentState->processState(*this);
-}
-
-void POSContext::transitionToState(POSState* newState)
-{
-    setState(newState);
-}
-
-void POSContext::addRegisteredProduct(const Product& product)
+void TransactionData::addRegisteredProduct(const Product& product)
 {
     // Get reference to <std::pair>'Value' from 'Key' productName
     auto& productEntry = registeredProducts[product.EAN13];
@@ -43,7 +21,7 @@ void POSContext::addRegisteredProduct(const Product& product)
     updatePrice(product);
 }
 
-void POSContext::updatePrice(const Product& product)
+void TransactionData::updatePrice(const Product& product)
 {
     // Calculate Subtotal price (price without tax), tax and total price
     currentSubtotalPrice += product.price;
@@ -56,7 +34,7 @@ void POSContext::updatePrice(const Product& product)
     remainingToPay       = std::floor(remainingToPay * 100.0f) / 100.0f;
 }
 
-void POSContext::cleanPreviousTransactionData()
+void TransactionData::cleanPreviousTransactionData()
 {
     currentSubtotalPrice = 0;
     currentTaxPrice      = 0;
@@ -68,12 +46,12 @@ void POSContext::cleanPreviousTransactionData()
 
 //**** -------------- Setters -------------- ****
 
-void POSContext::setCurrentOperator(std::string operatorIdentifier)
+void TransactionData::setCurrentOperator(std::string operatorIdentifier)
 {
     currentOperator = operatorIdentifier;
 }
 
-void POSContext::setRemainingToPay(float paymentLeft)
+void TransactionData::setRemainingToPay(float paymentLeft)
 {
 
     if (paymentLeft > 0 && paymentLeft < 0.01) // Fault tolerance due to float type
@@ -86,65 +64,55 @@ void POSContext::setRemainingToPay(float paymentLeft)
     }
 }
 
-void POSContext::setPaymentMethod(const std::string& methodToPay)
+void TransactionData::setPaymentMethod(const std::string& methodToPay)
 {
     paymentMethod = methodToPay;
 }
 
-void POSContext::setCashChange(const float changeToSet)
+void TransactionData::setCashChange(const float changeToSet)
 {
     change = changeToSet;
 }
 
 //**** -------------- Getters -------------- ****
 
-POSState* POSContext::getCurrentState() const
-{
-    return currentState.get();
-}
-
-TransactionData& POSContext::getTransactionData()
-{
-    return transactionData;
-}
-
-const std::string POSContext::getCurrentOperator() const
+const std::string TransactionData::getCurrentOperator() const
 {
     return currentOperator;
 }
 
-const float POSContext::getRemainingToPay() const
+const float TransactionData::getRemainingToPay() const
 {
     return remainingToPay;
 }
 
-const float POSContext::getSubtotalPrice() const
+const float TransactionData::getSubtotalPrice() const
 {
     return currentSubtotalPrice;
 }
 
-const float POSContext::getTaxPrice() const
+const float TransactionData::getTaxPrice() const
 {
     return currentTaxPrice;
 }
 
-const std::unordered_map<std::string, std::pair<Product, int>>& POSContext::getRegisteredProducts() const
+const std::unordered_map<std::string, std::pair<Product, int>>& TransactionData::getRegisteredProducts() const
 {
     return registeredProducts;
 }
 
-const std::string& POSContext::getPaymentMethod() const
+const std::string& TransactionData::getPaymentMethod() const
 {
     return paymentMethod;
 }
 
-float POSContext::getCashChange()
+float TransactionData::getCashChange()
 {
     change = std::floor(change * 100.0f) / 100.0f;
     return change;
 }
 
-std::string POSContext::getStoreIdentification()
+std::string TransactionData::getStoreIdentification()
 {
     return storeIdentification;
 }

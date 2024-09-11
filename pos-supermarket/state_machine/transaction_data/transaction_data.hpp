@@ -1,26 +1,19 @@
 #pragma once
 
 #include "products/products.hpp"
-#include "state_machine/states/pos_state.hpp"
-#include "state_machine/transaction_data/transaction_data.hpp"
 
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-class POSContext
+class TransactionData
 {
   public:
-    POSContext(POSState* initialState, std::string storeIdentifier);
-    ~POSContext() = default;
+    TransactionData(std::string store_identification) : storeIdentification(store_identification) {}
 
-    /// @brief Process the current active state
-    void processCurrentState();
-
-    /// @brief Transition to a new state (exit current and enter new one)
-    /// @param[in] newState New active state
-    void transitionToState(POSState* newState);
+    TransactionData()  = delete;
+    ~TransactionData() = default;
 
     /// @brief Add or update a product in the map of registered products
     /// @param product Product to add
@@ -48,14 +41,6 @@ class POSContext
     void setCashChange(const float changeToSet);
 
     //**** -------------- Getters -------------- ****
-
-    /// @brief Get current active state instance
-    /// @return Pointer to current active state
-    POSState* getCurrentState() const;
-
-    /// @brief Access the transaction data
-    /// @return Reference to TransactionData
-    TransactionData& getTransactionData();
 
     /// @brief Get current operator's identifier
     /// @return Current operator's identifier
@@ -91,19 +76,9 @@ class POSContext
     std::string getStoreIdentification();
 
   private:
-    /// @brief Set new state
-    /// @param[in] newState New active state
-    void setState(POSState* newState);
-
     /// @brief Calculate current prices (subtotal, tax and total)
     /// @param product Product to add
     void updatePrice(const Product& product);
-
-    /// @brief Data of the transaction
-    TransactionData transactionData;
-
-    /// @brief Current active state
-    std::unique_ptr<POSState> currentState;
 
     /// @brief Current operator executing transactions
     std::string currentOperator;
@@ -131,5 +106,5 @@ class POSContext
     std::string paymentMethod;
 
     /// @brief Store identification
-    std::string storeIdentification = "Afonso's Supermarket";
+    std::string storeIdentification;
 };

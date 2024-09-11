@@ -19,7 +19,7 @@ TEST_F(ItemsStateTest, processState_toReadyState)
     createCustomInputString("cancel");
 
     itemsState = new ItemsState();
-    posContext = new POSContext(itemsState);
+    posContext = new POSContext(itemsState, "Afonso's Supermarket");
 
     itemsState->processState(*posContext);
     ASSERT_TRUE(dynamic_cast<ReadyState*>(posContext->getCurrentState()) != nullptr);
@@ -30,7 +30,7 @@ TEST_F(ItemsStateTest, processState_toPaymentSelectionState)
     createCustomInputString("");
 
     itemsState = new ItemsState();
-    posContext = new POSContext(itemsState);
+    posContext = new POSContext(itemsState, "Afonso's Supermarket");
 
     createCustomInputString("done");
 
