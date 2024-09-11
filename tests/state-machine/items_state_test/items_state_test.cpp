@@ -35,5 +35,5 @@ TEST_F(ItemsStateTest, processState_toPaymentSelectionState)
     createCustomInputString("done");
 
     itemsState->processState(*posContext);
-    EXPECT_EQ(posContext->getSubtotalPrice(), 0);
+    EXPECT_EQ(posContext->getTransactionData().getSubtotalPrice(), 0);
 }
