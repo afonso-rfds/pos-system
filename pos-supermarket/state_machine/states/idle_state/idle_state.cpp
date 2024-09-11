@@ -1,10 +1,9 @@
 #include "idle_state.hpp"
-#include "config.hpp"
-#include "state_machine/states/ready_state/ready_state.hpp"
-#include <invoice/invoice_database/invoice_database.hpp>
 
-#include <algorithm>
-#include <limits.h>
+#include "invoice/invoice_database/invoice_database.hpp"
+#include "state_machine/states/ready_state/ready_state.hpp"
+
+#include <iostream>
 #include <regex>
 
 void IdleState::enterState(POSContext& context)
@@ -53,16 +52,6 @@ void IdleState::processState(POSContext& context)
     }
 }
 
-void IdleState::getUserInput()
-{
-    //  In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-    std::cin.ignore(INT_MAX, '\n');
-#endif
-    std::getline(std::cin, userInput);
-    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-}
-
 bool IdleState::isValidName(std::string operatorsName)
 {
     // Regex to match only alphabetic characters (both uppercase and lowercase)
@@ -81,8 +70,7 @@ void IdleState::processTransaction(POSContext& context)
 
         if (!isValidName(userInput))
         {
-            std::cout << std::endl
-                      << "Invalid name. Choose another." << std::endl;
+            std::cout << "\nInvalid name. Choose another.\n";
         }
 
     } while (!isValidName(userInput));

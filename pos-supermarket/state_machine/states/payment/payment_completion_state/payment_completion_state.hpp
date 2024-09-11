@@ -2,9 +2,9 @@
 
 #include "invoice/invoice.hpp"
 #include "state_machine/context/pos_context.hpp"
-#include "state_machine/states/pos_state.hpp"
+#include "state_machine/states/pos_base_state.hpp"
 
-class PaymentCompletionState : public POSState
+class PaymentCompletionState : public BaseState
 {
   public:
     PaymentCompletionState()  = default;
@@ -15,9 +15,6 @@ class PaymentCompletionState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Gets input from the user
-    void getUserInput();
-
     /// @brief Save current transaction in a database
     /// @param context Current state machine context
     void saveTransaction(POSContext& context);
@@ -31,8 +28,6 @@ class PaymentCompletionState : public POSState
     /// @return pointer to invoice created
     Invoice* createInvoice(POSContext& context);
 
-    /// @brief Commands from the user
-    std::string userInput;
-
+    /// @brief Pointer to invoice generated at payment completion
     Invoice* invoice;
 };

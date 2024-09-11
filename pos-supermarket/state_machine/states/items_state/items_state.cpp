@@ -1,20 +1,16 @@
 #include "items_state.hpp"
 
-#include "config.hpp"
 #include "products/products_database/products_database.hpp"
 #include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
-#include "iostream"
-#include <algorithm>
-#include <limits.h>
+#include <iostream>
 
 void ItemsState::enterState(POSContext& context)
 {
-    std::cout << "--- Transaction started ---" << std::endl;
-    std::cout << "Enter EAN13 of the products you want to register." << std::endl;
-    std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu" << std::endl
-              << std::endl;
+    std::cout << "--- Transaction started ---\n";
+    std::cout << "Enter EAN13 of the products you want to register.\n";
+    std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu\n\n";
 }
 
 void ItemsState::exitState(POSContext& context)
@@ -49,18 +45,6 @@ void ItemsState::processState(POSContext& context)
     stateTransition(context);
 }
 
-void ItemsState::getUserInput()
-{
-    //  In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-    std::cin.ignore(INT_MAX, '\n');
-#endif
-    std::getline(std::cin, userInput);
-    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-    std::cout << std::endl
-              << std::endl;
-}
-
 void ItemsState::stateTransition(POSContext& context)
 {
     if (userInput == "DONE")
@@ -92,10 +76,6 @@ void ItemsState::printRegisteredItems(POSContext& context) const
     }
 
     // Now print the registered items
-    std::cout << std::endl
-              << "Subtotal: " << context.getSubtotalPrice() << "€"
-              << std::endl
-              << "Tax: " << context.getTaxPrice() << "€"
-              << std::endl
-              << std::endl;
+    std::cout << "\nSubtotal: " << context.getSubtotalPrice() << "€"
+              << "\nTax: " << context.getTaxPrice() << "€\n\n";
 }

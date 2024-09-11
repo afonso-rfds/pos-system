@@ -1,18 +1,15 @@
 #include "payment_selection_state.hpp"
-#include "config.hpp"
+
 #include "state_machine/states/payment/partial_payment_state/partial_payment_state.hpp"
 
-#include "iostream"
-#include <algorithm>
-#include <limits.h>
+#include <iostream>
 
 void PaymentSelectionState::enterState(POSContext& context)
 {
-    std::cout << "-----------------------------------" << std::endl;
-    std::cout << "  --- Total to pay:     " << context.getSubtotalPrice() + context.getTaxPrice() << "€ ---" << std::endl;
-    std::cout << "  --- Remaining to pay: " << context.getRemainingToPay() << "€ ---" << std::endl;
-    std::cout << "-----------------------------------" << std::endl
-              << std::endl;
+    std::cout << "-----------------------------------\n";
+    std::cout << "  --- Total to pay:     " << context.getSubtotalPrice() + context.getTaxPrice() << "€ ---\n";
+    std::cout << "  --- Remaining to pay: " << context.getRemainingToPay() << "€ ---\n";
+    std::cout << "-----------------------------------\n\n";
 }
 
 void PaymentSelectionState::exitState(POSContext& context)
@@ -23,7 +20,7 @@ void PaymentSelectionState::processState(POSContext& context)
 {
     do
     {
-        std::cout << "You can pay via MBWay, card or cash" << std::endl;
+        std::cout << "You can pay via MBWay, card or cash\n";
         std::cout << "Payment method: ";
 
         getUserInput();
@@ -32,16 +29,4 @@ void PaymentSelectionState::processState(POSContext& context)
 
     context.setPaymentMethod(userInput);
     context.transitionToState(new PartialPaymentState);
-}
-
-void PaymentSelectionState::getUserInput()
-{
-    //  In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-    std::cin.ignore(INT_MAX, '\n');
-#endif
-    std::getline(std::cin, userInput);
-    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-    std::cout << std::endl
-              << std::endl;
 }

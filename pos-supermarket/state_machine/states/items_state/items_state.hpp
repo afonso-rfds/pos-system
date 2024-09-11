@@ -1,9 +1,9 @@
 #pragma once
 
 #include "products/products.hpp"
-#include "state_machine/states/pos_state.hpp"
+#include "state_machine/states/pos_base_state.hpp"
 
-class ItemsState : public POSState
+class ItemsState : public BaseState
 {
   public:
     ItemsState()  = default;
@@ -14,9 +14,6 @@ class ItemsState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Gets input from the user
-    void getUserInput();
-
     /// @brief Transition to the previous/next state
     /// @param context Current state machine context
     void stateTransition(POSContext& context);
@@ -24,7 +21,4 @@ class ItemsState : public POSState
     /// @brief Print the registered items
     /// @param context Current state machine context
     void printRegisteredItems(POSContext& context) const;
-
-    /// @brief Commands from the user
-    std::string userInput;
 };

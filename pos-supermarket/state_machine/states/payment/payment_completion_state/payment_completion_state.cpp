@@ -1,20 +1,17 @@
 #include "payment_completion_state.hpp"
-#include "config.hpp"
-#include "iostream"
+
+#include "invoice/invoice_database/invoice_database.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
-#include <algorithm>
-#include <invoice/invoice_database/invoice_database.hpp>
-#include <limits.h>
 
 #include <chrono>
 #include <iomanip>
+#include <iostream>
 #include <random>
 #include <sstream>
 
 void PaymentCompletionState::enterState(POSContext& context)
 {
     invoice = createInvoice(context);
-    //  context.setInvoiceNumber(generateInvoiceNumber());
     invoice->printInvoice();
 }
 
@@ -24,9 +21,8 @@ void PaymentCompletionState::exitState(POSContext& context)
 
 void PaymentCompletionState::processState(POSContext& context)
 {
-    std::cout << std::endl
-              << "Thanks for your purchase!" << std::endl;
-    std::cout << "Save transaction, start new transaction or exit" << std::endl;
+    std::cout << "\nThanks for your purchase!\n";
+    std::cout << "Save transaction, start new transaction or exit\n";
 
     do
     {
@@ -35,9 +31,7 @@ void PaymentCompletionState::processState(POSContext& context)
 
         if (userInput != "SAVE" && userInput != "START" && userInput != "EXIT")
         {
-            std::cout << std::endl
-                      << std::endl
-                      << "Invalid Command. Try again." << std::endl;
+            std::cout << "\n\nInvalid Command. Try again.\n";
         }
     } while (userInput != "SAVE" && userInput != "START" && userInput != "EXIT");
 
@@ -55,24 +49,12 @@ void PaymentCompletionState::processState(POSContext& context)
     }
 }
 
-void PaymentCompletionState::getUserInput()
-{
-    //  In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-    std::cin.ignore(INT_MAX, '\n');
-#endif
-    std::getline(std::cin, userInput);
-    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-    std::cout << std::endl
-              << std::endl;
-}
-
 void PaymentCompletionState::saveTransaction(POSContext& context)
 {
     InvoiceDatabase::getInstance()->addInvoice(*invoice);
 
-    std::cout << "Transaction saved!" << std::endl;
-    std::cout << "Start new transaction or exit" << std::endl;
+    std::cout << "Transaction saved!\n";
+    std::cout << "Start new transaction or exit\n";
 
     do
     {
@@ -81,9 +63,7 @@ void PaymentCompletionState::saveTransaction(POSContext& context)
 
         if (userInput != "START" && userInput != "EXIT")
         {
-            std::cout << std::endl
-                      << std::endl
-                      << "Invalid Command. Try again." << std::endl;
+            std::cout << "\n\nInvalid Command. Try again.\n";
         }
     } while (userInput != "START" && userInput != "EXIT");
 

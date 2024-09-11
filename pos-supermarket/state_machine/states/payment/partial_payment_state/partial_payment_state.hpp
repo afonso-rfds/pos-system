@@ -1,9 +1,9 @@
 #pragma once
 
 #include "state_machine/context/pos_context.hpp"
-#include "state_machine/states/pos_state.hpp"
+#include "state_machine/states/pos_base_state.hpp"
 
-class PartialPaymentState : public POSState
+class PartialPaymentState : public BaseState
 {
   public:
     PartialPaymentState()  = default;
@@ -14,9 +14,6 @@ class PartialPaymentState : public POSState
     void processState(POSContext& context) override;
 
   private:
-    /// @brief Gets input from the user
-    void getUserInput();
-
     /// @brief Check weather the operator's number is valid (number until 2 decimals only)
     /// @param number Number to validade
     /// @return true:  Valid number.
@@ -48,7 +45,4 @@ class PartialPaymentState : public POSState
     /// @param context Current state machine context
     /// @return true: Valid payment. False: Invalid payment
     bool isValidPayment(float payment, POSContext& context);
-
-    /// @brief Commands from the user
-    std::string userInput;
 };

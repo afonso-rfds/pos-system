@@ -1,11 +1,9 @@
 #include "partial_payment_state.hpp"
-#include "config.hpp"
+
 #include "state_machine/states/payment/payment_completion_state/payment_completion_state.hpp"
 #include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 
-#include "iostream"
-#include <algorithm>
-#include <limits.h>
+#include <iostream>
 #include <regex>
 
 void PartialPaymentState::enterState(POSContext& context)
@@ -55,18 +53,6 @@ void PartialPaymentState::processState(POSContext& context)
     }
 }
 
-void PartialPaymentState::getUserInput()
-{
-    //  In debug mode don't flush cin buffer
-#ifndef DEBUG_MODE_ENABLED
-    std::cin.ignore(INT_MAX, '\n');
-#endif
-    std::getline(std::cin, userInput);
-    std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-    std::cout << std::endl
-              << std::endl;
-}
-
 bool PartialPaymentState::isValidNumber(std::string number)
 {
     // Regex to match a number with optional decimals (up to 2 decimal places)
@@ -78,9 +64,7 @@ bool PartialPaymentState::isValidNumber(std::string number)
 
 void PartialPaymentState::handleInvalidInput(POSContext& context)
 {
-    std::cout << std::endl
-              << std::endl
-              << "Invalid Number. Please try again." << std::endl;
+    std::cout << "\n\nInvalid Number. Please try again.\n";
     enterState(context);
     getUserInput();
 }
@@ -116,8 +100,7 @@ bool PartialPaymentState::isValidPayment(float payment, POSContext& context)
     {
         if (isOverpaying(payment, context))
         {
-            std::cout << std::endl
-                      << "Cannot pay more than total value with this method. Please insert a new value" << std::endl;
+            std::cout << "\nCannot pay more than total value with this method. Please insert a new value\n";
             context.transitionToState(new PartialPaymentState);
 
             returnType = false;
