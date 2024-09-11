@@ -94,14 +94,14 @@ Invoice* PaymentCompletionState::createInvoice(POSContext& context)
 {
     Invoice* createdInvoice                = new Invoice();
 
-    createdInvoice->registeredProducts     = context.getRegisteredProducts();
-    createdInvoice->storeIdentification    = context.getStoreIdentification();
-    createdInvoice->subtotalPrice          = context.getSubtotalPrice();
-    createdInvoice->taxPrice               = context.getTaxPrice();
+    createdInvoice->registeredProducts     = context.getTransactionData().getRegisteredProducts();
+    createdInvoice->storeIdentification    = context.getTransactionData().getStoreIdentification();
+    createdInvoice->subtotalPrice          = context.getTransactionData().getSubtotalPrice();
+    createdInvoice->taxPrice               = context.getTransactionData().getTaxPrice();
     createdInvoice->totalPrice             = createdInvoice->subtotalPrice + createdInvoice->taxPrice;
-    createdInvoice->amountPaid             = context.getSubtotalPrice() + context.getTaxPrice() + context.getCashChange();
-    createdInvoice->cashChange             = context.getCashChange();
-    createdInvoice->operatorIdentification = context.getCurrentOperator();
+    createdInvoice->amountPaid             = context.getTransactionData().getSubtotalPrice() + context.getTransactionData().getTaxPrice() + context.getTransactionData().getCashChange();
+    createdInvoice->cashChange             = context.getTransactionData().getCashChange();
+    createdInvoice->operatorIdentification = context.getTransactionData().getCurrentOperator();
     createdInvoice->invoiceNumber          = generateInvoiceNumber();
 
     return createdInvoice;

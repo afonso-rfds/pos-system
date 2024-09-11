@@ -8,7 +8,7 @@
 
 void IdleState::enterState(POSContext& context)
 {
-    context.setCurrentOperator(""); // Assign no operator
+    context.getTransactionData().setCurrentOperator(""); // Assign no operator
 
     do
     {
@@ -71,7 +71,7 @@ void IdleState::processTransaction(POSContext& context)
 
     } while (!isValidName(userInput));
 
-    context.setCurrentOperator(userInput);
+    context.getTransactionData().setCurrentOperator(userInput);
     std::cout << "Operator '" << userInput << "' logged in.\n\n";
     context.transitionToState(new ReadyState());
 }

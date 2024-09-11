@@ -27,7 +27,7 @@ class PartialPaymentState : public BaseState
     /// @param payment Payment made
     /// @param context Current state machine context
     /// @return true: user is overpaying. false: user is NOT overpaying
-    bool isOverpaying(float payment, const POSContext& context);
+    bool isOverpaying(float payment, POSContext& context);
 
     /// @brief Update remaining value to pay
     /// @param payment Payment made
@@ -37,7 +37,7 @@ class PartialPaymentState : public BaseState
     /// @brief Checks if payment is complete
     /// @param context Current state machine context
     /// @return true: payment complete. false: payment incomplete
-    bool isPaymentComplete(const POSContext& context);
+    bool isPaymentComplete(POSContext& context);
 
     /// @brief Validate that there is no overpayment with MBWay or Card
     /// @param payment Payment made

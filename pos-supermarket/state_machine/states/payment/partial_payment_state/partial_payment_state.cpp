@@ -8,11 +8,11 @@
 
 void PartialPaymentState::enterState(POSContext& context)
 {
-    if (context.getPaymentMethod() == "MBWAY")
+    if (context.getTransactionData().getPaymentMethod() == "MBWAY")
     {
         std::cout << "MBWay: ";
     }
-    else if (context.getPaymentMethod() == "CARD")
+    else if (context.getTransactionData().getPaymentMethod() == "CARD")
     {
         std::cout << "Card: ";
     }
@@ -65,34 +65,34 @@ void PartialPaymentState::handleInvalidInput(POSContext& context)
     getUserInput();
 }
 
-bool PartialPaymentState::isOverpaying(float payment, const POSContext& context)
+bool PartialPaymentState::isOverpaying(float payment, POSContext& context)
 {
-    return payment > context.getRemainingToPay();
+    return payment > context.getTransactionData().getRemainingToPay();
 }
 
 void PartialPaymentState::updateRemainingToPay(float payment, POSContext& context)
 {
     if (isOverpaying(payment, context))
     {
-        context.setCashChange(payment - context.getRemainingToPay());
-        context.setRemainingToPay(0);
+        context.getTransactionData().setCashChange(payment - context.getTransactionData().getRemainingToPay());
+        context.getTransactionData().setRemainingToPay(0);
     }
     else
     {
-        context.setRemainingToPay(context.getRemainingToPay() - payment);
+        context.getTransactionData().setRemainingToPay(context.getTransactionData().getRemainingToPay() - payment);
     }
 }
 
-bool PartialPaymentState::isPaymentComplete(const POSContext& context)
+bool PartialPaymentState::isPaymentComplete(POSContext& context)
 {
-    return (context.getRemainingToPay() == 0);
+    return (context.getTransactionData().getRemainingToPay() == 0);
 }
 
 bool PartialPaymentState::isValidPayment(float payment, POSContext& context)
 {
     bool returnType = true;
 
-    if (context.getPaymentMethod() == "MBWAY" || context.getPaymentMethod() == "CARD")
+    if (context.getTransactionData().getPaymentMethod() == "MBWAY" || context.getTransactionData().getPaymentMethod() == "CARD")
     {
         if (isOverpaying(payment, context))
         {

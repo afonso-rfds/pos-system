@@ -28,7 +28,7 @@ void ItemsState::processState(POSContext& context)
         const Product* product = ProductsDatabase::getInstance()->findProduct(userInput);
         if (product != nullptr)
         {
-            context.addRegisteredProduct(*product);
+            context.getTransactionData().addRegisteredProduct(*product);
             printRegisteredItems(context);
         }
         else
@@ -46,7 +46,7 @@ void ItemsState::stateTransition(POSContext& context)
     if (userInput == "DONE")
     {
         // Prevent advancing without any products
-        if (context.getRegisteredProducts().empty())
+        if (context.getTransactionData().getRegisteredProducts().empty())
         {
             context.transitionToState(new ItemsState());
         }
@@ -63,7 +63,7 @@ void ItemsState::stateTransition(POSContext& context)
 
 void ItemsState::printRegisteredItems(POSContext& context) const
 {
-    const auto& products = context.getRegisteredProducts();
+    const auto& products = context.getTransactionData().getRegisteredProducts();
     for (const auto& product : products)
     {
         float productPrice = product.second.second * product.second.first.price;
@@ -72,6 +72,6 @@ void ItemsState::printRegisteredItems(POSContext& context) const
     }
 
     // Now print the registered items
-    std::cout << "\nSubtotal: " << context.getSubtotalPrice() << "€"
-              << "\nTax: " << context.getTaxPrice() << "€\n\n";
+    std::cout << "\nSubtotal: " << context.getTransactionData().getSubtotalPrice() << "€"
+              << "\nTax: " << context.getTransactionData().getTaxPrice() << "€\n\n";
 }

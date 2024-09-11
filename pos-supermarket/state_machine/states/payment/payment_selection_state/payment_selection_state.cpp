@@ -7,8 +7,8 @@
 void PaymentSelectionState::enterState(POSContext& context)
 {
     std::cout << "-----------------------------------\n";
-    std::cout << "  --- Total to pay:     " << context.getSubtotalPrice() + context.getTaxPrice() << "€ ---\n";
-    std::cout << "  --- Remaining to pay: " << context.getRemainingToPay() << "€ ---\n";
+    std::cout << "  --- Total to pay:     " << context.getTransactionData().getSubtotalPrice() + context.getTransactionData().getTaxPrice() << "€ ---\n";
+    std::cout << "  --- Remaining to pay: " << context.getTransactionData().getRemainingToPay() << "€ ---\n";
     std::cout << "-----------------------------------\n\n";
 }
 
@@ -23,6 +23,6 @@ void PaymentSelectionState::processState(POSContext& context)
 
     } while (userInput != "MBWAY" && userInput != "CARD" && userInput != "CASH");
 
-    context.setPaymentMethod(userInput);
+    context.getTransactionData().setPaymentMethod(userInput);
     context.transitionToState(new PartialPaymentState);
 }

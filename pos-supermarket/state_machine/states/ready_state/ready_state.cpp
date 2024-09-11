@@ -6,7 +6,7 @@
 
 void ReadyState::enterState(POSContext& context)
 {
-    context.cleanPreviousTransactionData();
+    context.getTransactionData().cleanPreviousTransactionData();
 
     do
     {
