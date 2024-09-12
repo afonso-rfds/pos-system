@@ -1,9 +1,5 @@
-# Locate GTest and GMock
-find_package(GTest REQUIRED)
-find_package(GMock REQUIRED)
-
-# Include directories for GTest and GMock
-include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
+# Add the GoogleTest subdirectory (source directory and binary directory)
+add_subdirectory(${CMAKE_SOURCE_DIR}/external/googletest ${CMAKE_BINARY_DIR}/googletest)
 
 # Automatically find all .cpp files in the pos-supermarket directory (shared code)
 file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
@@ -19,10 +15,11 @@ add_executable(run_tests ${PROJECT_SOURCES} ${TEST_SOURCES})
 
 # Link the GoogleTest, GoogleMock, SQLiteCpp libraries, and pthread
 target_link_libraries(run_tests
-  PRIVATE GTest::gtest_main  # Use gtest_main for GoogleTest's main function
-  PRIVATE GMock::gmock      # Link GoogleMock
-  PRIVATE GMock::gmock_main # Link GoogleMock main
-  PRIVATE SQLiteCpp          # Link SQLiteCpp
+  PRIVATE gtest          # Link GoogleTest from the submodule
+  PRIVATE gtest_main     # Use GoogleTest's main function from submodule
+  PRIVATE gmock          # Link GoogleMock from submodule
+  PRIVATE gmock_main     # Use GoogleMock's main function from submodule
+  PRIVATE SQLiteCpp      # Link SQLiteCpp
   PRIVATE pthread
 )
 
