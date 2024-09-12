@@ -11,10 +11,10 @@ file(GLOB_RECURSE TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(FILTER PROJECT_SOURCES EXCLUDE REGEX ".*main.cpp$")
 
 # Add an executable for the tests (only including necessary files)
-add_executable(run_tests ${PROJECT_SOURCES} ${TEST_SOURCES})
+add_executable(ProjectTests ${PROJECT_SOURCES} ${TEST_SOURCES})
 
 # Link the GoogleTest, GoogleMock, SQLiteCpp libraries, and pthread
-target_link_libraries(run_tests
+target_link_libraries(ProjectTests
   PRIVATE gtest          # Link GoogleTest from the submodule
   PRIVATE gtest_main     # Use GoogleTest's main function from submodule
   PRIVATE gmock          # Link GoogleMock from submodule
@@ -24,4 +24,4 @@ target_link_libraries(run_tests
 )
 
 # Add include directories for the test executable
-target_include_directories(run_tests PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
+target_include_directories(ProjectTests PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
