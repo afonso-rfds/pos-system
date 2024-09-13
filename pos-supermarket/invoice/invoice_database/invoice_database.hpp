@@ -3,11 +3,9 @@
 #include "invoice/invoice.hpp"
 
 #include <SQLiteCpp/SQLiteCpp.h>
-#include <memory>
 #include <string>
-#include <unordered_map>
 
-const std::string INVOICE_DATABASE_PATH = "/home/afonso/workspace/pos-exercise/pos-supermarket/database/invoices.db";
+const std::string INVOICE_DATABASE_PATH = "../pos-supermarket/database/invoices.db";
 
 class InvoiceDatabase
 {
@@ -37,10 +35,25 @@ class InvoiceDatabase
     /// @brief Private constructor for Singleton pattern
     InvoiceDatabase();
 
+    /// @brief Opens the database connection
+    void openDatabase();
+
+    /// @brief Creates the necessary table in the database if they don't exist
+    void createTable() const;
+
     /// @brief Retrieve an invoice from the database using the invoice number
     /// @param invoiceNumber The unique number of the invoice
     /// @return A pointer to the invoice if found, nullptr otherwise
     Invoice* getInvoice(const std::string& invoiceNumber) const;
+
+    /// @brief Fetches an invoice from the query result
+    /// @param query SQL query that retrieves the invoice
+    /// @return Pointer to the populated Invoice object. nullptr otherwise
+    Invoice* fetchInvoiceFromQuery(SQLite::Statement& query) const;
+
+    /// @brief Verifies if the database exists and it's populated
+    /// @return true if yes. false if it doesn't exist or is empty
+    bool isDatabaseValid() const;
 
     /// @brief Unique instance of singleton
     static InvoiceDatabase* singletonInstance;

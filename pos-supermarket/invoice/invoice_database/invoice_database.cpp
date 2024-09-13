@@ -1,4 +1,5 @@
 #include "invoice_database.hpp"
+
 #include <iostream>
 
 /// @brief Initialization must be done outside to prevent race conditions (in case threads are used)
@@ -6,11 +7,27 @@ InvoiceDatabase* InvoiceDatabase::singletonInstance = nullptr;
 
 InvoiceDatabase::InvoiceDatabase()
 {
-    // Create or open the database file
+    openDatabase();
+    createTable();
+}
+
+InvoiceDatabase* InvoiceDatabase::getInstance()
+{
+    if (singletonInstance == nullptr)
+    {
+        singletonInstance = new InvoiceDatabase();
+    }
+    return singletonInstance;
+}
+
+void InvoiceDatabase::openDatabase()
+{
     invoiceDatabase.reset(new SQLite::Database(INVOICE_DATABASE_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE));
     openStatus = true;
+}
 
-    // Create the table if it doesn't exist
+void InvoiceDatabase::createTable() const
+{
     invoiceDatabase->exec("CREATE TABLE IF NOT EXISTS invoices ("
                           "invoice_number TEXT PRIMARY KEY, "
                           "store_identification TEXT, "
@@ -20,16 +37,6 @@ InvoiceDatabase::InvoiceDatabase()
                           "amount_paid REAL, "
                           "cash_change REAL, "
                           "operator_identification TEXT);");
-}
-
-// Singleton instance accessor
-InvoiceDatabase* InvoiceDatabase::getInstance()
-{
-    if (singletonInstance == nullptr)
-    {
-        singletonInstance = new InvoiceDatabase();
-    }
-    return singletonInstance;
 }
 
 void InvoiceDatabase::addInvoice(const Invoice& invoice)
@@ -59,13 +66,20 @@ Invoice* InvoiceDatabase::getInvoice(const std::string& invoiceNumber) const
                             "SELECT invoice_number, store_identification, subtotal_price, tax_price, total_price, amount_paid, cash_change, operator_identification "
                             "FROM invoices WHERE invoice_number = ?;");
 
+    // Bind the invoiceNumber code to the first parameter of SQL query (Invoice Number field)
     query.bind(1, invoiceNumber);
 
+    Invoice* invoice = fetchInvoiceFromQuery(query);
+
+    return invoice;
+}
+
+Invoice* InvoiceDatabase::fetchInvoiceFromQuery(SQLite::Statement& query) const
+{
     if (query.executeStep())
     {
         // Create an Invoice object and populate its fields with the query result
         auto* invoice                   = new Invoice();
-
         invoice->invoiceNumber          = query.getColumn(0).getString();
         invoice->storeIdentification    = query.getColumn(1).getString();
         invoice->subtotalPrice          = query.getColumn(2).getDouble();
@@ -85,35 +99,36 @@ void InvoiceDatabase::printAllInvoices() const
 {
     SQLite::Statement query(*invoiceDatabase, "SELECT * FROM invoices;");
 
-    // Check if there are results
     if (!query.executeStep())
     {
-        std::cout << "--- No invoices in database! ---\n\n";
-        return;
+        std::cout << "--- No invoices in database! ---\n\n\n\n";
     }
-
-    // Iterate over all results
-    do
+    else
     {
-        std::string invoiceNumber = query.getColumn(0).getString();
-        Invoice* invoice          = getInvoice(invoiceNumber);
-
-        if (invoice)
+        do
         {
-            invoice->printSavedData();
-            std::cout << std::endl;
-            delete invoice; // Clean up after using the invoice
-        }
-    } while (query.executeStep());
+            std::string invoiceNumber = query.getColumn(0).getString();
+            Invoice* invoice          = getInvoice(invoiceNumber);
+
+            if (invoice)
+            {
+                invoice->printSavedData();
+                std::cout << std::endl;
+                delete invoice;
+            }
+        } while (query.executeStep());
+    }
 }
 
-void InvoiceDatabase::removeAllInvoices()
+bool InvoiceDatabase::isDatabaseValid() const
 {
+    bool returnValue = true;
+
     // Check if the database exists and is accessible
     if (!openStatus)
     {
         std::cout << "--- Database does not exist or is not accessible! ---\n\n";
-        return;
+        returnValue = false;
     }
 
     // Check if there are any invoices in the database
@@ -122,33 +137,20 @@ void InvoiceDatabase::removeAllInvoices()
 
     if (checkQuery.getColumn(0).getInt() == 0)
     {
-        std::cout << "---- No invoices to delete. The database is empty! ---\n\n";
-        return;
+        std::cout << "---- No invoices to delete. The database is empty! ---\n\n\n\n";
+        returnValue = false;
     }
 
-    // Proceed with deletion if invoices exist
-    SQLite::Transaction transaction(*invoiceDatabase);
+    return returnValue;
+}
 
-    // Check if the invoice_products table exists
-    bool tableExists = false;
-    SQLite::Statement checkTableQuery(*invoiceDatabase, "SELECT name FROM sqlite_master WHERE type='table' AND name='invoice_products';");
-    if (checkTableQuery.executeStep())
+void InvoiceDatabase::removeAllInvoices()
+{
+    if (isDatabaseValid())
     {
-        tableExists = true;
+        SQLite::Statement invoiceQuery(*invoiceDatabase, "DELETE FROM invoices;");
+        invoiceQuery.exec();
+
+        std::cout << "--- Invoices deleted! ---\n\n\n\n";
     }
-
-    // Delete all entries from invoice_products if the table exists
-    if (tableExists)
-    {
-        SQLite::Statement productsQuery(*invoiceDatabase, "DELETE FROM invoice_products;");
-        productsQuery.exec();
-    }
-
-    // Then delete all entries from invoices
-    SQLite::Statement invoiceQuery(*invoiceDatabase, "DELETE FROM invoices;");
-    invoiceQuery.exec();
-
-    transaction.commit();
-
-    std::cout << "--- Invoices deleted! ---\n\n";
 }
