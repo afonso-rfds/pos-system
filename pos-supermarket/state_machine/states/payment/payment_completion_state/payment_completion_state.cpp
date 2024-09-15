@@ -36,7 +36,7 @@ void PaymentCompletionState::processState(POSContext& context)
     }
     else if (userInput == "START")
     {
-        context.transitionToState(new ReadyState());
+        context.transitionToState(StateType::Ready);
     }
     else
     {
@@ -65,7 +65,7 @@ void PaymentCompletionState::saveTransaction(POSContext& context)
 
     if (userInput == "START")
     {
-        context.transitionToState(new ReadyState());
+        context.transitionToState(StateType::Ready);
     }
     else
     {

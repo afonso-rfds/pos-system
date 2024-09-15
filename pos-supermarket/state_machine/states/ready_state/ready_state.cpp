@@ -22,10 +22,10 @@ void ReadyState::processState(POSContext& context)
 {
     if (userInput == "CANCEL")
     {
-        context.transitionToState(new IdleState());
+        context.transitionToState(StateType::Idle);
     }
     else
     {
-        context.transitionToState(new ItemsState());
+        context.transitionToState(StateType::Items);
     }
 }

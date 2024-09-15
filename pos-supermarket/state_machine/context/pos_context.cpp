@@ -19,9 +19,30 @@ void POSContext::processCurrentState()
     currentState->processState(*this);
 }
 
-void POSContext::transitionToState(POSState* newState)
+void POSContext::transitionToState(StateType newState)
 {
-    setState(newState);
+    setState(createState(newState));
+}
+
+POSState* POSContext::createState(StateType newState)
+{
+    switch (newState)
+    {
+    case StateType::Idle:
+        return new IdleState();
+    case StateType::Ready:
+        return new ReadyState();
+    case StateType::Items:
+        return new ItemsState();
+    case StateType::PaymentSelection:
+        return new PaymentSelectionState();
+    case StateType::PartialPayment:
+        return new PartialPaymentState();
+    case StateType::PaymentCompletion:
+        return new PaymentCompletionState();
+    default:
+        return nullptr;
+    }
 }
 
 //**** -------------- Getters -------------- ****

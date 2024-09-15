@@ -47,16 +47,16 @@ void ItemsState::stateTransition(POSContext& context)
         // Prevent advancing without any products
         if (context.getTransactionData().getRegisteredProducts().empty())
         {
-            context.transitionToState(new ItemsState());
+            context.transitionToState(StateType::Items);
         }
         else
         {
-            context.transitionToState(new PaymentSelectionState());
+            context.transitionToState(StateType::PaymentSelection);
         }
     }
     else
     {
-        context.transitionToState(new ReadyState());
+        context.transitionToState(StateType::Ready);
     }
 }
 

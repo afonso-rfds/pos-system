@@ -33,12 +33,12 @@ void IdleState::processState(POSContext& context)
     if (userInput == "SHOW")
     {
         databasesManager.printAllInvoices();
-        context.transitionToState(new IdleState());
+        context.transitionToState(StateType::Idle);
     }
     else if (userInput == "CLEAN")
     {
         databasesManager.removeAllInvoices();
-        context.transitionToState(new IdleState());
+        context.transitionToState(StateType::Idle);
         return;
     }
     else
@@ -72,5 +72,5 @@ void IdleState::processTransaction(POSContext& context)
 
     context.getTransactionData().setCurrentOperator(userInput);
     std::cout << "Operator '" << userInput << "' logged in.\n\n";
-    context.transitionToState(new ReadyState());
+    context.transitionToState(StateType::Ready);
 }

@@ -41,11 +41,11 @@ void PartialPaymentState::processState(POSContext& context)
 
     if (isPaymentComplete(context))
     {
-        context.transitionToState(new PaymentCompletionState);
+        context.transitionToState(StateType::PaymentCompletion);
     }
     else
     {
-        context.transitionToState(new PaymentSelectionState);
+        context.transitionToState(StateType::PaymentSelection);
     }
 }
 
@@ -97,7 +97,7 @@ bool PartialPaymentState::isValidPayment(float payment, POSContext& context)
         if (isOverpaying(payment, context))
         {
             std::cout << "\nCannot pay more than total value with this method. Please insert a new value\n";
-            context.transitionToState(new PartialPaymentState);
+            context.transitionToState(StateType::PartialPayment);
 
             returnType = false;
         }

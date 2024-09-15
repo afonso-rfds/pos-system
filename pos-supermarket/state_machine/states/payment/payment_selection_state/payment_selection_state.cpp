@@ -24,5 +24,5 @@ void PaymentSelectionState::processState(POSContext& context)
     } while (userInput != "MBWAY" && userInput != "CARD" && userInput != "CASH");
 
     context.getTransactionData().setPaymentMethod(userInput);
-    context.transitionToState(new PartialPaymentState);
+    context.transitionToState(StateType::PartialPayment);
 }
