@@ -1,6 +1,5 @@
 #include "items_state.hpp"
 
-#include "products/products_database/products_database.hpp"
 #include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
@@ -25,7 +24,7 @@ void ItemsState::processState(POSContext& context)
             break;
         }
 
-        const Product* product = ProductsDatabase::getInstance()->findProduct(userInput);
+        const Product* product = databasesManager.findProduct(userInput);
         if (product != nullptr)
         {
             context.getTransactionData().addRegisteredProduct(*product);

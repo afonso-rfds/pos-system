@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/databases_manager/databases_manager.hpp"
 #include "products/products.hpp"
 #include "state_machine/states/pos_base_state.hpp"
 
@@ -20,4 +21,7 @@ class ItemsState : public BaseState
     /// @brief Print the registered items
     /// @param context Current state machine context
     void printRegisteredItems(POSContext& context) const;
+
+    /// @brief Member that deals with the databases
+    DatabasesManager databasesManager;
 };

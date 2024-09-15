@@ -1,5 +1,6 @@
 #pragma once
 
+#include "database/databases_manager/databases_manager.hpp"
 #include "state_machine/context/pos_context.hpp"
 #include "state_machine/states/pos_base_state.hpp"
 
@@ -24,4 +25,7 @@ class IdleState : public BaseState
     /// @brief Process the beginning of a transaction
     /// @param context Current state machine context
     void processTransaction(POSContext& context);
+
+    /// @brief Member that deals with the databases
+    DatabasesManager databasesManager;
 };

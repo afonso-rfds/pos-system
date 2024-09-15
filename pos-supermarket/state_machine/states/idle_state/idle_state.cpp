@@ -1,6 +1,5 @@
 #include "idle_state.hpp"
 
-#include "invoice/invoice_database/invoice_database.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
 #include <iostream>
@@ -33,12 +32,12 @@ void IdleState::processState(POSContext& context)
 {
     if (userInput == "SHOW")
     {
-        InvoiceDatabase::getInstance()->printAllInvoices();
+        databasesManager.printAllInvoices();
         context.transitionToState(new IdleState());
     }
     else if (userInput == "CLEAN")
     {
-        InvoiceDatabase::getInstance()->removeAllInvoices();
+        databasesManager.removeAllInvoices();
         context.transitionToState(new IdleState());
         return;
     }
