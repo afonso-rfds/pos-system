@@ -19,8 +19,6 @@ class BaseState : public POSState
     {
         std::getline(std::cin, userInput);
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
-        std::cout << std::endl
-                  << std::endl;
     }
 
     /// @brief Commands from the user

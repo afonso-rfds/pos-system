@@ -21,12 +21,12 @@ void PaymentCompletionState::processState(POSContext& context)
 
     do
     {
-        std::cout << "[Save/Start/Exit]: ";
+        std::cout << "\n[Save/Start/Exit]: ";
         getUserInput();
 
         if (userInput != "SAVE" && userInput != "START" && userInput != "EXIT")
         {
-            std::cout << "\n\nInvalid Command. Try again.\n";
+            std::cout << "Invalid Command. Try again.\n";
         }
     } while (userInput != "SAVE" && userInput != "START" && userInput != "EXIT");
 
@@ -49,17 +49,17 @@ void PaymentCompletionState::saveTransaction(POSContext& context)
     databasesManager.addInvoice(*invoice);
 
     std::cout
-        << "Transaction saved!\n";
+        << "\n-- Transaction saved! --\n";
     std::cout << "Start new transaction or exit\n";
 
     do
     {
-        std::cout << "[Start/Exit]: ";
+        std::cout << "\n[Start/Exit]: ";
         getUserInput();
 
         if (userInput != "START" && userInput != "EXIT")
         {
-            std::cout << "\n\nInvalid Command. Try again.\n";
+            std::cout << "Invalid Command. Try again.\n";
         }
     } while (userInput != "START" && userInput != "EXIT");
 

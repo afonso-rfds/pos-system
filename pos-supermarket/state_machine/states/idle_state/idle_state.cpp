@@ -11,14 +11,12 @@ void IdleState::enterState(POSContext& context)
 
     do
     {
-        std::cout << "---------- Welcome to the supermarket! ----------\n";
+        std::cout << "\n---------- Welcome to the supermarket! ----------\n";
         std::cout << "Press \"Enter\" to start or type \"Exit\" to leave\n";
         std::cout << "Type \"Show\" see saved invoices or type \"Clean\" to remove all invoices\n";
-        std::cout << "[Enter/Exit/Show/Clean]: ";
+        std::cout << "\n[Enter/Exit/Show/Clean]: ";
 
         getUserInput();
-
-        std::cout << std::endl;
 
     } while (userInput != "EXIT" && !userInput.empty() && userInput != "SHOW" && userInput != "CLEAN");
 
@@ -60,12 +58,13 @@ void IdleState::processTransaction(POSContext& context)
 {
     do
     {
-        std::cout << "Please identify yourself: ";
+        std::cout << "\nPlease identify yourself: ";
         getUserInput();
 
         if (!isValidName(userInput))
         {
-            std::cout << "\nInvalid name. Choose another.\n";
+            std::cout << "--- Invalid name ---\n";
+            std::cout << "Please choose another.\n";
         }
 
     } while (!isValidName(userInput));

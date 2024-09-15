@@ -4,7 +4,7 @@
 
 void Invoice::printInvoice() const
 {
-    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << "\n*---------------------------------*" << std::endl;
     std::cout << "*----------- Invoice -------------*" << std::endl;
     std::cout << "*---------------------------------*" << std::endl;
     std::cout << "*---------------------------------*" << std::endl;
@@ -18,7 +18,7 @@ void Invoice::printInvoice() const
 
 void Invoice::printSavedData() const
 {
-    std::cout << "*---------------------------------*" << std::endl;
+    std::cout << "\n*---------------------------------*" << std::endl;
     std::cout << "*----------- Invoice -------------*" << std::endl;
     std::cout << "*---------------------------------*" << std::endl;
     std::cout << "*---------------------------------*" << std::endl;

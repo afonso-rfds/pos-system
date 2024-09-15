@@ -6,7 +6,7 @@
 
 void PaymentSelectionState::enterState(POSContext& context)
 {
-    std::cout << "-----------------------------------\n";
+    std::cout << "\n\n-----------------------------------\n";
     std::cout << "  --- Total to pay:     " << context.getTransactionData().getSubtotalPrice() + context.getTransactionData().getTaxPrice() << "€ ---\n";
     std::cout << "  --- Remaining to pay: " << context.getTransactionData().getRemainingToPay() << "€ ---\n";
     std::cout << "-----------------------------------\n\n";

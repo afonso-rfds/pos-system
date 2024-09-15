@@ -24,6 +24,8 @@ void ItemsState::processState(POSContext& context)
             break;
         }
 
+        std::cout << std::endl;
+
         const Product* product = databasesManager.findProduct(userInput);
         if (product != nullptr)
         {
@@ -32,7 +34,7 @@ void ItemsState::processState(POSContext& context)
         }
         else
         {
-            std::cout << "Invalid EAN13. Try again." << std::endl;
+            std::cout << "Invalid EAN13. Try again.\n\n";
         }
 
     } while (userInput != "DONE" && userInput != "CANCEL");
@@ -47,6 +49,7 @@ void ItemsState::stateTransition(POSContext& context)
         // Prevent advancing without any products
         if (context.getTransactionData().getRegisteredProducts().empty())
         {
+            std::cout << std::endl;
             context.transitionToState(StateType::Items);
         }
         else
