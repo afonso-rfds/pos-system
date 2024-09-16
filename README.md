@@ -1,14 +1,13 @@
 
 # POS Supermarket System
 
-This project is a C++ point-of-sale (POS) system for managing product registration, invoicing, and payments in a supermarket. It uses a state machine and singleton pattern to handle transactions efficiently.
+This project is a C++ point-of-sale (POS) system for managing product registration, invoicing, and payments in a supermarket. It uses a state machine, factory and singleton patterns to handle transactions efficiently.
 
 ## Tool Requirements
-- Requirements
-- C++11
+- C++11 (or later)
 - CMake
-- GoogleTest
-- SQLite
+- GoogleTest (as a Git submodule)
+- SQLite (as a Git submodule)
 
 ## Features
 
@@ -35,13 +34,19 @@ The system operates through the following states:
 ## Design Patterns
 - **Singleton**: Used for managing product and invoice databases.
 - **State**: Implements the POS state machine to manage transitions between different transaction phases.
+- **Factory**: Utilized for dynamically creating states in a single point.
 
 ## Compilation
 
-1. Clone the repository:
+1. Clone the repository and initialize submodules:
    ```bash
    git clone https://github.com/afonso-rfds/pos-exercise.git
    cd pos-exercise
+   git submodule update --init --recursive
+   ```
+   Alternatively, clone with submodules in one step:
+   ```bash
+   git clone --recurse-submodules https://github.com/afonso-rfds/pos-exercise.git
    ```
 
 2. Build the project using CMake:
