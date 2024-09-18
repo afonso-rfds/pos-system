@@ -5,7 +5,7 @@ void POSContextTest::SetUp()
     mockInitialState = new MockPOSState();
     mockSecondState  = new MockPOSState();
 
-    posContext       = new POSContext(mockInitialState, "Afonso's Supermarket");
+    posContext       = new POSContext("Afonso's Supermarket");
 }
 
 void POSContextTest::TearDown()

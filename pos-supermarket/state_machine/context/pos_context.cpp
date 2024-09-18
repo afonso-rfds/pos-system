@@ -3,14 +3,15 @@
 
 #include <cmath>
 
-POSContext::POSContext(POSState* initialState, std::string storeIdentifier) : currentState(initialState), transactionData(storeIdentifier)
+POSContext::POSContext(std::string storeIdentifier) : transactionData(storeIdentifier)
 {
+    currentState.reset(createState(StateType::Idle));
     currentState->enterState(*this);
 }
 
 void POSContext::setState(POSState* newState)
 {
-    currentState.reset(newState); // Clean up the old state and switch to the new one
+    currentState.reset(newState);
     currentState->enterState(*this);
 }
 

@@ -12,7 +12,7 @@ TEST_F(IdleStateTest, enterState)
     createCustomInputString("");
 
     idleState  = new IdleState();
-    posContext = new POSContext(idleState, "Afonso's Supermarket");
+    posContext = new POSContext("Afonso's Supermarket");
 
     // Current state is IdleState
     ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
@@ -24,7 +24,7 @@ TEST_F(IdleStateTest, processState)
     createCustomInputString("");
 
     idleState  = new IdleState();
-    posContext = new POSContext(idleState, "Afonso's Supermarket");
+    posContext = new POSContext("Afonso's Supermarket");
 
     createCustomInputString("User");
     idleState->processState(*posContext);

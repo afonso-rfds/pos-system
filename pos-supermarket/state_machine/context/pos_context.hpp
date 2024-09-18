@@ -11,10 +11,7 @@
 #include "state_machine/states/payment/payment_selection_state/payment_selection_state.hpp"
 #include "state_machine/states/ready_state/ready_state.hpp"
 
-#include <memory>
 #include <string>
-#include <unordered_map>
-#include <vector>
 
 enum class StateType
 {
@@ -29,7 +26,7 @@ enum class StateType
 class POSContext
 {
   public:
-    POSContext(POSState* initialState, std::string storeIdentifier);
+    POSContext(std::string storeIdentifier);
     ~POSContext() = default;
 
     /// @brief Process the current active state
