@@ -9,6 +9,6 @@ class ReadyState : public BaseState
     ReadyState()  = default;
     ~ReadyState() = default;
 
-    void enterState(POSContext& context) override;
-    void processState(POSContext& context) override;
+    void enterState(Context& context) override;
+    void processState(Context& context) override;
 };

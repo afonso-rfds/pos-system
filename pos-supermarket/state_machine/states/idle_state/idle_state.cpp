@@ -5,7 +5,7 @@
 #include <iostream>
 #include <regex>
 
-void IdleState::enterState(POSContext& context)
+void IdleState::enterState(Context& context)
 {
     context.getTransactionData().setCurrentOperator(""); // Assign no operator
 
@@ -26,7 +26,7 @@ void IdleState::enterState(POSContext& context)
     }
 }
 
-void IdleState::processState(POSContext& context)
+void IdleState::processState(Context& context)
 {
     if (userInput == "SHOW")
     {
@@ -54,7 +54,7 @@ bool IdleState::isValidName(std::string operatorsName)
     return std::regex_match(operatorsName, alphaRegex);
 }
 
-void IdleState::processTransaction(POSContext& context)
+void IdleState::processTransaction(Context& context)
 {
     do
     {

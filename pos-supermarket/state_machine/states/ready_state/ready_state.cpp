@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void ReadyState::enterState(POSContext& context)
+void ReadyState::enterState(Context& context)
 {
     context.getTransactionData().cleanPreviousTransactionData();
 
@@ -18,7 +18,7 @@ void ReadyState::enterState(POSContext& context)
     } while (userInput != "MENU" && !userInput.empty());
 }
 
-void ReadyState::processState(POSContext& context)
+void ReadyState::processState(Context& context)
 {
     if (userInput == "MENU")
     {

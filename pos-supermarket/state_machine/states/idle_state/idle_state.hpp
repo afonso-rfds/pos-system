@@ -12,8 +12,8 @@ class IdleState : public BaseState
     IdleState()  = default;
     ~IdleState() = default;
 
-    void enterState(POSContext& context) override;
-    void processState(POSContext& context) override;
+    void enterState(Context& context) override;
+    void processState(Context& context) override;
 
   private:
     /// @brief Check weather the operator's name is valid (alphabetic chars only)
@@ -24,7 +24,7 @@ class IdleState : public BaseState
 
     /// @brief Process the beginning of a transaction
     /// @param context Current state machine context
-    void processTransaction(POSContext& context);
+    void processTransaction(Context& context);
 
     /// @brief Member that deals with the databases
     DatabasesManager databasesManager;

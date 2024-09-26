@@ -10,17 +10,17 @@ class ItemsState : public BaseState
     ItemsState()  = default;
     ~ItemsState() = default;
 
-    void enterState(POSContext& context) override;
-    void processState(POSContext& context) override;
+    void enterState(Context& context) override;
+    void processState(Context& context) override;
 
   private:
     /// @brief Transition to the previous/next state
     /// @param context Current state machine context
-    void stateTransition(POSContext& context);
+    void stateTransition(Context& context);
 
     /// @brief Print the registered items
     /// @param context Current state machine context
-    void printRegisteredItems(POSContext& context) const;
+    void printRegisteredItems(Context& context) const;
 
     /// @brief Member that deals with the databases
     DatabasesManager databasesManager;

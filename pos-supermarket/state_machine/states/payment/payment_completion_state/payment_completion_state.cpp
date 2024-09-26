@@ -8,13 +8,13 @@
 #include <random>
 #include <sstream>
 
-void PaymentCompletionState::enterState(POSContext& context)
+void PaymentCompletionState::enterState(Context& context)
 {
     invoice = createInvoice(context);
     invoice->printInvoice();
 }
 
-void PaymentCompletionState::processState(POSContext& context)
+void PaymentCompletionState::processState(Context& context)
 {
     std::cout << "\nThanks for your purchase!\n";
     std::cout << "Save transaction, start new transaction or exit\n";
@@ -44,7 +44,7 @@ void PaymentCompletionState::processState(POSContext& context)
     }
 }
 
-void PaymentCompletionState::saveTransaction(POSContext& context)
+void PaymentCompletionState::saveTransaction(Context& context)
 {
     databasesManager.addInvoice(*invoice);
 
@@ -90,7 +90,7 @@ std::string PaymentCompletionState::generateInvoiceNumber()
     return oss.str();
 }
 
-Invoice* PaymentCompletionState::createInvoice(POSContext& context)
+Invoice* PaymentCompletionState::createInvoice(Context& context)
 {
     Invoice* createdInvoice                = new Invoice();
 

@@ -5,14 +5,14 @@
 
 #include <iostream>
 
-void ItemsState::enterState(POSContext& context)
+void ItemsState::enterState(Context& context)
 {
     std::cout << "--- Transaction started ---\n";
     std::cout << "Enter EAN13 of the products you want to register.\n";
     std::cout << "Type \"Done\" to finish transaction or \"Cancel\" to go to the previous menu\n\n";
 }
 
-void ItemsState::processState(POSContext& context)
+void ItemsState::processState(Context& context)
 {
     do
     {
@@ -42,7 +42,7 @@ void ItemsState::processState(POSContext& context)
     stateTransition(context);
 }
 
-void ItemsState::stateTransition(POSContext& context)
+void ItemsState::stateTransition(Context& context)
 {
     if (userInput == "DONE")
     {
@@ -63,7 +63,7 @@ void ItemsState::stateTransition(POSContext& context)
     }
 }
 
-void ItemsState::printRegisteredItems(POSContext& context) const
+void ItemsState::printRegisteredItems(Context& context) const
 {
     const auto& products = context.getTransactionData().getRegisteredProducts();
     for (const auto& product : products)

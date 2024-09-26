@@ -11,13 +11,13 @@ class PaymentCompletionState : public BaseState
     PaymentCompletionState()  = default;
     ~PaymentCompletionState() = default;
 
-    void enterState(POSContext& context) override;
-    void processState(POSContext& context) override;
+    void enterState(Context& context) override;
+    void processState(Context& context) override;
 
   private:
     /// @brief Save current transaction in a database
     /// @param context Current state machine context
-    void saveTransaction(POSContext& context);
+    void saveTransaction(Context& context);
 
     /// @brief Generates an invoice number
     /// @return 10 digits invoice number
@@ -26,7 +26,7 @@ class PaymentCompletionState : public BaseState
     /// @brief Creates an invoice
     /// @param context Current state machine context
     /// @return pointer to invoice created
-    Invoice* createInvoice(POSContext& context);
+    Invoice* createInvoice(Context& context);
 
     /// @brief Pointer to invoice generated at payment completion
     Invoice* invoice;

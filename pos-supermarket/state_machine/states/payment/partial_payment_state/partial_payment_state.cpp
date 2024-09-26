@@ -6,7 +6,7 @@
 #include <iostream>
 #include <regex>
 
-void PartialPaymentState::enterState(POSContext& context)
+void PartialPaymentState::enterState(Context& context)
 {
     if (context.getTransactionData().getPaymentMethod() == "MBWAY")
     {
@@ -22,7 +22,7 @@ void PartialPaymentState::enterState(POSContext& context)
     }
 }
 
-void PartialPaymentState::processState(POSContext& context)
+void PartialPaymentState::processState(Context& context)
 {
     getUserInput();
     while (!isValidNumber(userInput))
@@ -58,19 +58,19 @@ bool PartialPaymentState::isValidNumber(std::string number)
     return std::regex_match(number, numberRegex);
 }
 
-void PartialPaymentState::handleInvalidInput(POSContext& context)
+void PartialPaymentState::handleInvalidInput(Context& context)
 {
     std::cout << "\n\nInvalid Number. Please try again.\n";
     enterState(context);
     getUserInput();
 }
 
-bool PartialPaymentState::isOverpaying(float payment, POSContext& context)
+bool PartialPaymentState::isOverpaying(float payment, Context& context)
 {
     return payment > context.getTransactionData().getRemainingToPay();
 }
 
-void PartialPaymentState::updateRemainingToPay(float payment, POSContext& context)
+void PartialPaymentState::updateRemainingToPay(float payment, Context& context)
 {
     if (isOverpaying(payment, context))
     {
@@ -83,12 +83,12 @@ void PartialPaymentState::updateRemainingToPay(float payment, POSContext& contex
     }
 }
 
-bool PartialPaymentState::isPaymentComplete(POSContext& context)
+bool PartialPaymentState::isPaymentComplete(Context& context)
 {
     return (context.getTransactionData().getRemainingToPay() == 0);
 }
 
-bool PartialPaymentState::isValidPayment(float payment, POSContext& context)
+bool PartialPaymentState::isValidPayment(float payment, Context& context)
 {
     bool returnType = true;
 

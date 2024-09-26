@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "state_machine/transaction_data/transaction_data.hpp"
 
 enum class StateType
 {
@@ -24,5 +24,5 @@ class Context
 
     /// @brief Access the transaction data
     /// @return Reference to TransactionData
-    // TransactionData& getTransactionData();
+    virtual TransactionData& getTransactionData() = 0;
 };

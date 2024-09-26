@@ -3,7 +3,7 @@
 #include <string>
 
 // Forward declaration
-class POSContext;
+class Context;
 
 class POSState
 {
@@ -12,9 +12,9 @@ class POSState
 
     /// @brief Process the current state
     /// @param[inout] context Current state machine context
-    virtual void processState(POSContext& context) = 0;
+    virtual void processState(Context& context) = 0;
 
     /// @brief Logic to execute when entering the state for the first time
     /// @param[inout] context Current state machine context
-    virtual void enterState(POSContext& context) = 0;
+    virtual void enterState(Context& context) = 0;
 };

@@ -29,13 +29,13 @@ class POSContext : public Context
 
     //**** -------------- Getters -------------- ****
 
+    /// @brief Access the transaction data
+    /// @return Reference to TransactionData
+    TransactionData& getTransactionData() override;
+
     /// @brief Get current active state instance
     /// @return Pointer to current active state
     POSState* getCurrentState() const;
-
-    /// @brief Access the transaction data
-    /// @return Reference to TransactionData
-    TransactionData& getTransactionData();
 
   private:
     /// @brief Set new state
