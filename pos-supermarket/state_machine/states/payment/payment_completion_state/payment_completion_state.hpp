@@ -2,7 +2,7 @@
 
 #include "database/databases_manager/databases_manager.hpp"
 #include "invoice/invoice.hpp"
-#include "state_machine/context/pos_context.hpp"
+#include "state_machine/context/pos/pos_context.hpp"
 #include "state_machine/states/pos_base_state.hpp"
 
 class PaymentCompletionState : public BaseState

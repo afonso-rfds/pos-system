@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../mocks/mock_state.hpp"
-#include "state_machine/context/pos_context.hpp"
+#include "state_machine/context/pos/pos_context.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

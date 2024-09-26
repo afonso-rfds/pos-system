@@ -1,4 +1,4 @@
-#include "state_machine/context/pos_context.hpp"
+#include "state_machine/context/pos/pos_context.hpp"
 
 int main()
 {
