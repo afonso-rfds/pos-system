@@ -1,6 +1,7 @@
 #pragma once
 
 #include "products/products.hpp"
+#include "state_machine/context/context.hpp"
 #include "state_machine/states/pos_state.hpp"
 #include "state_machine/transaction_data/transaction_data.hpp"
 
@@ -13,28 +14,18 @@
 
 #include <string>
 
-enum class StateType
-{
-    Idle,
-    Ready,
-    Items,
-    PaymentSelection,
-    PartialPayment,
-    PaymentCompletion
-};
-
-class POSContext
+class POSContext : public Context
 {
   public:
     POSContext(std::string storeIdentifier);
     ~POSContext() = default;
 
     /// @brief Process the current active state
-    void processCurrentState();
+    void processCurrentState() override;
 
     /// @brief Transition to a new state (exit current and enter new one)
     /// @param[in] newState New active state
-    void transitionToState(StateType newState);
+    void transitionToState(StateType newState) override;
 
     //**** -------------- Getters -------------- ****
 
