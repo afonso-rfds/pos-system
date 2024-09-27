@@ -8,8 +8,10 @@
 class MockTransactionData : public TransactionData
 {
   public:
+    MockTransactionData() : TransactionData("Afonso's Supermarket") {}
+
     MOCK_METHOD1(addRegisteredProduct, void(const Product& product));
-    MOCK_METHOD0(cleanPreviousTransactionData, void);
+    MOCK_METHOD0(cleanPreviousTransactionData, void());
     MOCK_METHOD1(setCurrentOperator, void(std::string operatorIdentifier));
     MOCK_METHOD1(setRemainingToPay, void(float paymentLeft));
     MOCK_METHOD1(setPaymentMethod, void(const std::string& methodToPay));

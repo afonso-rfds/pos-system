@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../mocks/mock_state.hpp"
+#include "../../mocks/mock_state.hpp"
 #include "state_machine/context/pos/pos_context.hpp"
 
 #include <gmock/gmock.h>

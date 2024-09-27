@@ -1,5 +1,6 @@
 #include "idle_state_test.hpp"
-#include "state_machine/states/ready_state/ready_state.hpp"
+
+#include "../../stubs/stub_pos_context.hpp"
 
 INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputString)
 {
@@ -7,17 +8,15 @@ INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputStr
     std::cin.rdbuf(input.rdbuf());
 }
 
-// TEST_F(IdleStateTest, enterState)
-// {
-//     createCustomInputString("");
+TEST_F(IdleStateTest, enterState_exit)
+{
+    createCustomInputString("exit");
 
-//     idleState  = new IdleState();
-//     posContext = new POSContext("Afonso's Supermarket");
+    idleState  = new IdleState();
+    posContext = new StubPOSContext();
 
-//     // Current state is IdleState
-//     ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
-//     EXPECT_EQ(posContext->getTransactionData().getCurrentOperator(), ""); // No operator (empty string)
-// }
+    ASSERT_EXIT({ idleState->enterState(*posContext); }, ::testing::ExitedWithCode(0), "");
+}
 
 // TEST_F(IdleStateTest, processState)
 // {
