@@ -1,7 +1,10 @@
 #pragma once
 
+#include "../../mocks/mock_context.hpp"
+#include "../../mocks/mock_databases_manager.hpp"
 #include "state_machine/context/pos/pos_context.hpp"
 #include "state_machine/states/idle_state/idle_state.hpp"
+#include "state_machine/transaction_data/transaction_data.hpp"
 
 #include <gtest/gtest.h>
 
@@ -14,6 +17,17 @@ class IdleStateTest : public ::testing::Test
     /// @param inputString string to mock as user's input
     INLINE_FUNCTION void createCustomInputString(std::string inputString);
 
-    Context* posContext;
+    void SetUp() override;
+    void TearDown() override;
+
     IdleState* idleState;
+    TransactionData* transactionData;
+
+    MockContext* posContext;
+    MockDatabasesManager* databasesManager;
+};
+
+// Parameterized test case for inputs "\n", "show", and "clean"
+class IdleStateParamTest : public IdleStateTest, public ::testing::WithParamInterface<std::string>
+{
 };

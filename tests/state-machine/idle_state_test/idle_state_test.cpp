@@ -4,31 +4,64 @@
 
 INLINE_FUNCTION void IdleStateTest::createCustomInputString(std::string inputString)
 {
-    std::istringstream input(inputString);
+    std::istringstream input(inputString + "\n");
     std::cin.rdbuf(input.rdbuf());
+    std::cin.clear();
+}
+
+void IdleStateTest::SetUp()
+{
+    posContext      = new MockContext();
+    idleState       = new IdleState();
+    transactionData = new TransactionData("Afonso's Supermarket");
+}
+
+void IdleStateTest::TearDown()
+{
+    delete idleState;
+    delete posContext;
+    delete transactionData;
 }
 
 TEST_F(IdleStateTest, enterState_exit)
 {
     createCustomInputString("exit");
 
-    idleState  = new IdleState();
-    posContext = new StubPOSContext();
+    Context* context = new StubPOSContext();
 
-    ASSERT_EXIT({ idleState->enterState(*posContext); }, ::testing::ExitedWithCode(0), "");
+    ASSERT_EXIT({ idleState->enterState(*context); }, ::testing::ExitedWithCode(0), "");
 }
 
-// TEST_F(IdleStateTest, processState)
+TEST_F(IdleStateTest, enterState_invalidInput)
+{
+    createCustomInputString("invalidInput");
+
+    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    EXPECT_DEATH({ idleState->enterState(*posContext); }, "");
+}
+
+// TEST_F(IdleStateTest, processState_show)
 // {
-//     createCustomInputString("");
+//     createCustomInputString("show");
 
-//     idleState  = new IdleState();
-//     posContext = new POSContext("Afonso's Supermarket");
+//     EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+//     idleState->enterState(*posContext);
 
-//     createCustomInputString("User");
+//     // EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
 //     idleState->processState(*posContext);
-
-//     // Current state is ReadyState. Current operator's identifier is 'User'
-//     ASSERT_TRUE(dynamic_cast<ReadyState*>(posContext->getCurrentState()) != nullptr);
-//     EXPECT_EQ(posContext->getTransactionData().getCurrentOperator(), "USER");
 // }
+
+TEST_P(IdleStateParamTest, enterState_multipleValidInputs)
+{
+    const std::string& inputString = GetParam();
+
+    createCustomInputString(inputString);
+
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
+    idleState->enterState(*posContext);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    IdleStateInputs,
+    IdleStateParamTest,
+    ::testing::Values("\n", "show", "clean"));
