@@ -5,7 +5,7 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
 
-const std::string PRODUCTS_DATABASE_PATH = "../pos-supermarket/database/products.db";
+const std::string PRODUCTS_DATABASE_PATH = std::string(PROJECT_ROOT) + "pos-supermarket/database/products.db";
 
 // Singleton class
 class ProductsDatabase
