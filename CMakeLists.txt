@@ -10,6 +10,9 @@ set(CMAKE_CXX_STANDARD 11)
 # Include the directory where custom CMake modules are located
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/cmake ${CMAKE_MODULE_PATH})
 
+# Add a definition for the root directory
+add_compile_definitions(PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+
 # Automatically find all .cpp files in the root directory
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
 

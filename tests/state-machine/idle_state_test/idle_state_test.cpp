@@ -40,16 +40,42 @@ TEST_F(IdleStateTest, enterState_invalidInput)
     EXPECT_DEATH({ idleState->enterState(*posContext); }, "");
 }
 
-// TEST_F(IdleStateTest, processState_show)
-// {
-//     createCustomInputString("show");
+TEST_F(IdleStateTest, processState_show)
+{
+    createCustomInputString("show");
 
-//     EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
-//     idleState->enterState(*posContext);
+    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    idleState->enterState(*posContext);
 
-//     // EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
-//     idleState->processState(*posContext);
-// }
+    EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
+    idleState->processState(*posContext);
+}
+
+TEST_F(IdleStateTest, processState_clean)
+{
+    createCustomInputString("clean");
+
+    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    idleState->enterState(*posContext);
+
+    EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
+    idleState->processState(*posContext);
+}
+
+TEST_F(IdleStateTest, processState_enter)
+{
+    createCustomInputString("");
+
+    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+
+    idleState->enterState(*posContext);
+
+    std::istringstream input("validOperatorName");
+    std::cin.rdbuf(input.rdbuf());
+
+    EXPECT_CALL(*posContext, transitionToState(StateType::Ready)).Times(1);
+    idleState->processState(*posContext);
+}
 
 TEST_P(IdleStateParamTest, enterState_multipleValidInputs)
 {
