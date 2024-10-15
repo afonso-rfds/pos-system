@@ -5,33 +5,66 @@
 
 INLINE_FUNCTION void ReadyStateTest::createCustomInputString(std::string inputString)
 {
-    std::istringstream input(inputString);
+    std::istringstream input(inputString + "\n");
     std::cin.rdbuf(input.rdbuf());
+    std::cin.clear();
 }
 
-TEST_F(ReadyStateTest, enterState)
+void ReadyStateTest::SetUp()
 {
-    EXPECT_TRUE(true);
+    posContext      = new MockContext();
+    readyState      = new ReadyState();
+    transactionData = new TransactionData("Afonso's Supermarket");
 }
 
-TEST_F(ReadyStateTest, DISABLED_processState_toItemsState)
+void ReadyStateTest::TearDown()
 {
-    // createCustomInputString("");
-
-    // readyState = new ReadyState();
-    // posContext = new POSContext(readyState, "Afonso's Supermarket");
-
-    // readyState->processState(*posContext);
-    // ASSERT_TRUE(dynamic_cast<ItemsState*>(posContext->getCurrentState()) != nullptr);
+    delete readyState;
+    delete posContext;
+    delete transactionData;
 }
 
-TEST_F(ReadyStateTest, processState_toIdleState)
+TEST_F(ReadyStateTest, enterState_invalidInput)
 {
-    // createCustomInputString("cancel");
+    createCustomInputString("invalidInput");
 
-    // readyState = new ReadyState();
-    // posContext = new POSContext(readyState, "Afonso's Supermarket");
+    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    EXPECT_DEATH({ readyState->enterState(*posContext); }, "");
+}
 
-    // readyState->processState(*posContext);
-    // ASSERT_TRUE(dynamic_cast<IdleState*>(posContext->getCurrentState()) != nullptr);
+TEST_F(ReadyStateTest, processState_menu)
+{
+    createCustomInputString("menu");
+
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
+    readyState->enterState(*posContext);
+
+    EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
+    readyState->processState(*posContext);
+}
+
+TEST_F(ReadyStateTest, processState_enter)
+{
+    createCustomInputString("");
+
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
+    readyState->enterState(*posContext);
+
+    EXPECT_CALL(*posContext, transitionToState(StateType::Items)).Times(1);
+    readyState->processState(*posContext);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    ReadyStateInputs,
+    ReadyStateParamTest,
+    ::testing::Values("\n", "menu"));
+
+TEST_P(ReadyStateParamTest, enterState_multipleValidInputs)
+{
+    const std::string& inputString = GetParam();
+
+    createCustomInputString(inputString);
+
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
+    readyState->enterState(*posContext);
 }
