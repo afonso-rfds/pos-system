@@ -44,7 +44,7 @@ TEST_F(IdleStateTest, processState_show)
 {
     createCustomInputString("show");
 
-    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
     idleState->enterState(*posContext);
 
     EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
@@ -55,7 +55,7 @@ TEST_F(IdleStateTest, processState_clean)
 {
     createCustomInputString("clean");
 
-    EXPECT_CALL(*posContext, getTransactionData()).WillRepeatedly(::testing::ReturnRef(*transactionData));
+    EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
     idleState->enterState(*posContext);
 
     EXPECT_CALL(*posContext, transitionToState(StateType::Idle)).Times(1);
