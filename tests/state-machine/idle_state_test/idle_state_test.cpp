@@ -77,6 +77,11 @@ TEST_F(IdleStateTest, processState_enter)
     idleState->processState(*posContext);
 }
 
+INSTANTIATE_TEST_SUITE_P(
+    IdleStateInputs,
+    IdleStateParamTest,
+    ::testing::Values("\n", "show", "clean"));
+
 TEST_P(IdleStateParamTest, enterState_multipleValidInputs)
 {
     const std::string& inputString = GetParam();
@@ -86,8 +91,3 @@ TEST_P(IdleStateParamTest, enterState_multipleValidInputs)
     EXPECT_CALL(*posContext, getTransactionData()).Times(1).WillOnce(::testing::ReturnRef(*transactionData));
     idleState->enterState(*posContext);
 }
-
-INSTANTIATE_TEST_SUITE_P(
-    IdleStateInputs,
-    IdleStateParamTest,
-    ::testing::Values("\n", "show", "clean"));
