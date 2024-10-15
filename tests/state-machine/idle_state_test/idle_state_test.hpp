@@ -2,7 +2,6 @@
 
 #include "../../mocks/mock_context.hpp"
 #include "../../mocks/mock_databases_manager.hpp"
-#include "state_machine/context/pos/pos_context.hpp"
 #include "state_machine/states/idle_state/idle_state.hpp"
 #include "state_machine/transaction_data/transaction_data.hpp"
 
