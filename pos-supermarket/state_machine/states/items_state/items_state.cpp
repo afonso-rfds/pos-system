@@ -23,19 +23,9 @@ void ItemsState::processState(Context& context)
         {
             break;
         }
-
         std::cout << std::endl;
 
-        const Product* product = databasesManager.findProduct(userInput);
-        if (product != nullptr)
-        {
-            context.getTransactionData().addRegisteredProduct(*product);
-            printRegisteredItems(context);
-        }
-        else
-        {
-            std::cout << "Invalid EAN13. Try again.\n\n";
-        }
+        processEAN13(context);
 
     } while (userInput != "DONE" && userInput != "CANCEL");
 
@@ -76,4 +66,18 @@ void ItemsState::printRegisteredItems(Context& context) const
     // Now print the registered items
     std::cout << "\nSubtotal: " << context.getTransactionData().getSubtotalPrice() << "€"
               << "\nTax: " << context.getTransactionData().getTaxPrice() << "€\n\n";
+}
+
+void ItemsState::processEAN13(Context& context)
+{
+    const Product* product = databasesManager.findProduct(userInput);
+    if (product != nullptr)
+    {
+        context.getTransactionData().addRegisteredProduct(*product);
+        printRegisteredItems(context);
+    }
+    else
+    {
+        std::cout << "Invalid EAN13. Try again.\n\n";
+    }
 }

@@ -22,6 +22,10 @@ class ItemsState : public BaseState
     /// @param context Current state machine context
     void printRegisteredItems(Context& context) const;
 
+    /// @brief Processes the inputed EAN13 and register the product (if valid EAN13)
+    /// @param context Current state machine context
+    void processEAN13(Context& context);
+
     /// @brief Member that deals with the databases
     DatabasesManager databasesManager;
 };

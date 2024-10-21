@@ -1,7 +1,8 @@
 #pragma once
 
-#include "state_machine/context/pos/pos_context.hpp"
+#include "../../mocks/mock_context.hpp"
 #include "state_machine/states/items_state/items_state.hpp"
+#include "state_machine/transaction_data/transaction_data.hpp"
 
 #include <gtest/gtest.h>
 
@@ -14,6 +15,11 @@ class ItemsStateTest : public ::testing::Test
     /// @param inputString string to mock as user's input
     INLINE_FUNCTION void createCustomInputString(std::string inputString);
 
-    POSContext* posContext;
+    void SetUp() override;
+    void TearDown() override;
+
     ItemsState* itemsState;
+    TransactionData* transactionData;
+
+    MockContext* posContext;
 };
