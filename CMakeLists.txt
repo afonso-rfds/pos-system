@@ -14,7 +14,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/cmake ${CMAKE_MODULE_PATH})
 add_compile_definitions(PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
 
 # Automatically find all .cpp files in the root directory
-file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Exclude CMake-generated files and directories
 list(FILTER SOURCES EXCLUDE REGEX "CMakeFiles")
@@ -23,7 +23,7 @@ list(FILTER SOURCES EXCLUDE REGEX "CMakeFiles")
 add_executable(pos-supermarket ${SOURCES})
 
 # Add include directories
-target_include_directories(pos-supermarket PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
+target_include_directories(pos-supermarket PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 # Add the SQLiteCpp library from the submodule
 add_subdirectory(external/SQLiteCpp)

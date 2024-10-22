@@ -1,8 +1,8 @@
 # Add the GoogleTest subdirectory (source directory and binary directory)
 add_subdirectory(${CMAKE_SOURCE_DIR}/external/googletest ${CMAKE_BINARY_DIR}/googletest)
 
-# Automatically find all .cpp files in the pos-supermarket directory (shared code)
-file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/pos-supermarket/*.cpp")
+# Automatically find all .cpp files in the src directory (shared code)
+file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Automatically find all .cpp files in the tests directory
 file(GLOB_RECURSE TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
@@ -24,4 +24,4 @@ target_link_libraries(ProjectTests
 )
 
 # Add include directories for the test executable
-target_include_directories(ProjectTests PRIVATE ${CMAKE_SOURCE_DIR}/pos-supermarket)
+target_include_directories(ProjectTests PRIVATE ${CMAKE_SOURCE_DIR}/src)
