@@ -23,7 +23,6 @@ class IdleStateTest : public ::testing::Test
     TransactionData* transactionData;
 
     MockContext* posContext;
-    MockDatabasesManager* databasesManager;
 };
 
 // Parameterized test case for inputs "\n", "show", and "clean"
