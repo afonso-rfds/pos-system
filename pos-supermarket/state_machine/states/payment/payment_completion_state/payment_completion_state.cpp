@@ -19,20 +19,12 @@ void PaymentCompletionState::processState(Context& context)
     std::cout << "\nThanks for your purchase!\n";
     std::cout << "Save transaction, start new transaction or exit\n";
 
-    do
-    {
-        std::cout << "\n[Save/Start/Exit]: ";
-        getUserInput();
-
-        if (userInput != "SAVE" && userInput != "START" && userInput != "EXIT")
-        {
-            std::cout << "Invalid Command. Try again.\n";
-        }
-    } while (userInput != "SAVE" && userInput != "START" && userInput != "EXIT");
+    promptSaveStartExit();
 
     if (userInput == "SAVE")
     {
-        saveTransaction(context);
+        saveTransaction();
+        processEndOfTransaction(context);
     }
     else if (userInput == "START")
     {
@@ -44,33 +36,11 @@ void PaymentCompletionState::processState(Context& context)
     }
 }
 
-void PaymentCompletionState::saveTransaction(Context& context)
+void PaymentCompletionState::saveTransaction()
 {
     databasesManager.addInvoice(*invoice);
 
-    std::cout
-        << "\n-- Transaction saved! --\n";
-    std::cout << "Start new transaction or exit\n";
-
-    do
-    {
-        std::cout << "\n[Start/Exit]: ";
-        getUserInput();
-
-        if (userInput != "START" && userInput != "EXIT")
-        {
-            std::cout << "Invalid Command. Try again.\n";
-        }
-    } while (userInput != "START" && userInput != "EXIT");
-
-    if (userInput == "START")
-    {
-        context.transitionToState(StateType::Ready);
-    }
-    else
-    {
-        exit(EXIT_SUCCESS);
-    }
+    std::cout << "\n-- Transaction saved! --\n";
 }
 
 std::string PaymentCompletionState::generateInvoiceNumber()
@@ -105,4 +75,43 @@ Invoice* PaymentCompletionState::createInvoice(Context& context)
     createdInvoice->invoiceNumber          = generateInvoiceNumber();
 
     return createdInvoice;
+}
+
+void PaymentCompletionState::promptSaveStartExit()
+{
+    do
+    {
+        std::cout << "\n[Save/Start/Exit]: ";
+        getUserInput();
+
+        if (userInput != "SAVE" && userInput != "START" && userInput != "EXIT")
+        {
+            std::cout << "Invalid Command. Try again.\n";
+        }
+    } while (userInput != "SAVE" && userInput != "START" && userInput != "EXIT");
+}
+
+void PaymentCompletionState::processEndOfTransaction(Context& context)
+{
+    std::cout << "Start new transaction or exit\n";
+
+    do
+    {
+        std::cout << "\n[Start/Exit]: ";
+        getUserInput();
+
+        if (userInput != "START" && userInput != "EXIT")
+        {
+            std::cout << "Invalid Command. Try again.\n";
+        }
+    } while (userInput != "START" && userInput != "EXIT");
+
+    if (userInput == "START")
+    {
+        context.transitionToState(StateType::Ready);
+    }
+    else
+    {
+        exit(EXIT_SUCCESS);
+    }
 }

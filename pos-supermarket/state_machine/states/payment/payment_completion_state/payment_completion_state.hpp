@@ -16,12 +16,18 @@ class PaymentCompletionState : public BaseState
 
   private:
     /// @brief Save current transaction in a database
-    /// @param context Current state machine context
-    void saveTransaction(Context& context);
+    void saveTransaction();
 
     /// @brief Generates an invoice number
     /// @return 10 digits invoice number
     std::string generateInvoiceNumber();
+
+    /// @brief Prompt possible commands after finalizing the transaction
+    void promptSaveStartExit();
+
+    /// @brief Process the end of the transaction after saving
+    /// @param context Current state machine context
+    void processEndOfTransaction(Context& context);
 
     /// @brief Creates an invoice
     /// @param context Current state machine context
