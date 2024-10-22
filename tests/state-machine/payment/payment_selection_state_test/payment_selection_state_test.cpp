@@ -1,35 +1,35 @@
 
 #include "payment_selection_state_test.hpp"
 
-INLINE_FUNCTION void PaymentSelectionTest::createCustomInputString(std::string inputString)
+INLINE_FUNCTION void PaymentSelectionStateTest::createCustomInputString(std::string inputString)
 {
     std::istringstream input(inputString + "\n");
     std::cin.rdbuf(input.rdbuf());
     std::cin.clear();
 }
 
-void PaymentSelectionTest::SetUp()
+void PaymentSelectionStateTest::SetUp()
 {
     posContext            = new MockContext();
     paymentSelectionState = new PaymentSelectionState();
     transactionData       = new TransactionData("Afonso's Supermarket");
 }
 
-void PaymentSelectionTest::TearDown()
+void PaymentSelectionStateTest::TearDown()
 {
     delete paymentSelectionState;
     delete posContext;
     delete transactionData;
 }
 
-TEST_F(PaymentSelectionTest, enterState)
+TEST_F(PaymentSelectionStateTest, enterState)
 {
     EXPECT_CALL(*posContext, getTransactionData()).Times(3).WillRepeatedly(::testing::ReturnRef(*transactionData));
 
     paymentSelectionState->enterState(*posContext);
 }
 
-TEST_F(PaymentSelectionTest, processState_invalidInput)
+TEST_F(PaymentSelectionStateTest, processState_invalidInput)
 {
     createCustomInputString("invalidInput");
 
@@ -38,11 +38,11 @@ TEST_F(PaymentSelectionTest, processState_invalidInput)
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    PaymentSelectionInputs,
-    PaymentSelectionParamTest,
+    PaymentSelectionStateInputs,
+    PaymentSelectionStateParamTest,
     ::testing::Values("mbway", "card", "cash"));
 
-TEST_P(PaymentSelectionParamTest, processState_multipleValidInputs)
+TEST_P(PaymentSelectionStateParamTest, processState_multipleValidInputs)
 {
     const std::string& inputString = GetParam();
 

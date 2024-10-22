@@ -8,7 +8,7 @@
 
 #define INLINE_FUNCTION inline __attribute__((always_inline))
 
-class PaymentSelectionTest : public ::testing::Test
+class PaymentSelectionStateTest : public ::testing::Test
 {
   protected:
     /// @brief Create a personalized input string and redirect std::cin
@@ -25,6 +25,6 @@ class PaymentSelectionTest : public ::testing::Test
 };
 
 // Parameterized test case for inputs "mbway", "card", and "cash"
-class PaymentSelectionParamTest : public PaymentSelectionTest, public ::testing::WithParamInterface<std::string>
+class PaymentSelectionStateParamTest : public PaymentSelectionStateTest, public ::testing::WithParamInterface<std::string>
 {
 };
