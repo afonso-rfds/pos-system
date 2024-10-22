@@ -2,5 +2,4 @@
 build/
 .vscode/
 
-invoices.db
-
+pos-supermarket/database/invoices.db
