@@ -5,8 +5,6 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
 
-const std::string INVOICE_DATABASE_PATH = std::string(PROJECT_ROOT) + "/src/database/invoices.db";
-
 class InvoiceDatabase
 {
   public:
@@ -60,4 +58,7 @@ class InvoiceDatabase
 
     /// @brief Connection to the database
     std::unique_ptr<SQLite::Database> invoiceDatabase;
+
+    /// @brief Path to the database
+    const std::string invoiceDatabasePath;
 };

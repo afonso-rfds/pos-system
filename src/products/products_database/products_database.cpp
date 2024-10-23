@@ -5,7 +5,11 @@ ProductsDatabase* ProductsDatabase::singletonInstance = nullptr;
 
 ProductsDatabase::ProductsDatabase()
 {
-    productDatabase.reset(new SQLite::Database(PRODUCTS_DATABASE_PATH, SQLite::OPEN_READONLY));
+    std::string currentFile                = std::string(__FILE__);
+    std::string baseDirectory              = currentFile.substr(0, currentFile.find("src/products"));
+    const std::string productsDatabasePath = baseDirectory + "src/database/products.db";
+
+    productDatabase.reset(new SQLite::Database(productsDatabasePath, SQLite::OPEN_READONLY));
 }
 
 ProductsDatabase* ProductsDatabase::getInstance()

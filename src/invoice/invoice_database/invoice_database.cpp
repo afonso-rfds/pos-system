@@ -7,6 +7,10 @@ InvoiceDatabase* InvoiceDatabase::singletonInstance = nullptr;
 
 InvoiceDatabase::InvoiceDatabase()
 {
+    std::string currentFile               = std::string(__FILE__);
+    std::string baseDirectory             = currentFile.substr(0, currentFile.find("src/invoice"));
+    const std::string invoiceDatabasePath = baseDirectory + "src/database/invoices.db";
+
     openDatabase();
     createTable();
 }
@@ -22,7 +26,7 @@ InvoiceDatabase* InvoiceDatabase::getInstance()
 
 void InvoiceDatabase::openDatabase()
 {
-    invoiceDatabase.reset(new SQLite::Database(INVOICE_DATABASE_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE));
+    invoiceDatabase.reset(new SQLite::Database(invoiceDatabasePath, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE));
 }
 
 void InvoiceDatabase::createTable() const
