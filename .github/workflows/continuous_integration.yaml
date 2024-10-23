@@ -37,6 +37,8 @@ jobs:
           name: build
 
       - name: Run Tests
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}
         run: |
           cd tests/  
           chmod +x ProjectTests
