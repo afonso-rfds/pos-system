@@ -3,7 +3,7 @@ name: Continuous Integration
 on: [push]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
           path: build 
           if-no-files-found: error
 
-  test:
+  Test:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -54,7 +54,7 @@ jobs:
           path: build
           if-no-files-found: error
 
-  coverage:
+  Coverage:
     needs: test
     runs-on: ubuntu-latest
     steps:
