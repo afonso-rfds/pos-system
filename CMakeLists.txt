@@ -7,13 +7,16 @@ project(pos-supermarket)
 # Set the C++ standard to use
 set(CMAKE_CXX_STANDARD 11)
 
-# Include the directory where custom CMake modules are located
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/cmake ${CMAKE_MODULE_PATH})
+# Set default build type to Release if not provided
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+endif()
 
-# Add a definition for the root directory
-add_compile_definitions(PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+# Set compiler flags for Debug and Release modes
+set(CMAKE_CXX_FLAGS_DEBUG "-g -fprofile-arcs -ftest-coverage")  # Debug symbols + coverage flags
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")    # Optimization for Release
 
-# Automatically find all .cpp files in the root directory
+# Automatically find all .cpp files in the src directory
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Exclude CMake-generated files and directories
