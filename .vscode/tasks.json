@@ -2,9 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Coverage",
+            "label": "Run Coverage - Complete Analysis",
             "type": "shell",
-            "command": "if [ -d build ]; then cd build && find ../src -name '*.gcno' -exec gcov {} \\; && ./tests/ProjectTests && lcov --capture --directory . --output-file coverage.info --rc lcov_branch_coverage=1 --exclude '*usr/include*' --exclude '*external*' && genhtml coverage.info --output-directory out --branch-coverage; else echo 'Build directory does not exist'; fi",
+            "command": "if [ -d build ]; then cd build && find ../src -name '*.gcno' -exec gcov {} \\; && ./tests/ProjectTests && lcov --capture --directory . --output-file coverage.info --rc lcov_branch_coverage=1 --exclude '*usr/include*' --exclude '*external*'&& genhtml coverage.info --output-directory out --branch-coverage; else echo 'Build directory does not exist'; fi",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Coverage - Partial Analysis",
+            "type": "shell",
+            "command": "if [ -d build ]; then cd build && find ../src -name '*.gcno' -exec gcov {} \\; && ./tests/ProjectTests && lcov --capture --directory . --output-file coverage.info --exclude '*usr/include*' --exclude '*external*' --exclude '*src/main.cpp*' --exclude '*tests*' && genhtml coverage.info --output-directory out; else echo 'Build directory does not exist'; fi",
             "problemMatcher": []
         }
     ]

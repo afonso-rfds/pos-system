@@ -17,7 +17,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="--coverage" ..
           make
 
       - name: Upload Build Artifacts
@@ -39,11 +39,61 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
+          path: build
 
       - name: Run Tests
         run: |
-          cd tests/  
+          cd build/tests  
           chmod +x ProjectTests
           ./ProjectTests || exit 1
 
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: buildAfterTests
+          path: build
+          if-no-files-found: error
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: buildAfterTests
+          path: build
+
+      - name: Generate Coverage Report
+        run: |
+          cd build
+          lcov --capture --directory . --output-file coverage.info --exclude '*usr/include*' --exclude '*external*' --exclude '*src/main.cpp*' --exclude '*tests*'
+          genhtml coverage.info --output-directory out
+          LINE_COVERAGE=$(lcov --summary coverage.info | awk -F ': ' '/lines/ {print $2}' | awk '{print $1}' | sed 's/%//')
+          FUNCTION_COVERAGE=$(lcov --summary coverage.info | awk -F ': ' '/functions/ {print $2}' | awk '{print $1}' | sed 's/%//')
+          echo "LINE_COVERAGE=$LINE_COVERAGE" >> $GITHUB_ENV
+          echo "FUNCTION_COVERAGE=$FUNCTION_COVERAGE" >> $GITHUB_ENV
+
+      - name: Check coverage threshold
+        run: |
+          LINE_COVERAGE_THRESHOLD=80
+          FUNCTION_COVERAGE_THRESHOLD=80
+          if (( $(echo "$LINE_COVERAGE < $LINE_COVERAGE_THRESHOLD" | bc -l) )); then
+            echo "Line coverage is inferior to $LINE_COVERAGE_THRESHOLD%: $LINE_COVERAGE%"
+            exit 1
+          elif (( $(echo "$FUNCTION_COVERAGE < $FUNCTION_COVERAGE_THRESHOLD" | bc -l) )); then
+              echo "Function coverage is inferior to $FUNCTION_COVERAGE_THRESHOLD%: $FUNCTION_COVERAGE%"
+              exit 1
+          else
+              echo "Coverage is valid!"
+              echo "Line coverage: $LINE_COVERAGE%"
+              echo "Function coverage: $FUNCTION_COVERAGE%"
+          fi
 
